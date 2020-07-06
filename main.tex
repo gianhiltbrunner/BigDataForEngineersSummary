@@ -1,0 +1,252 @@
+\documentclass{article}
+
+\usepackage{multicol}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{framed}
+
+\title{Big Data For Engineers}
+\author{Gian Silvan Hiltbrunner}
+\date{June 2020}
+
+\usepackage[sfdefault]{FiraSans}
+
+\begin{document}
+%\begin{multicols}{2}
+
+\maketitle
+
+\begin{center}
+    \color{red}
+    \begin{framed}
+    \noindent Parts of the information provided within this document may be incomplete and/or incorrect. For corrections please submit a pull request to:
+    \url{http://github.com/protelescristata/SummaryComputationalBiology}
+    \end{framed}
+\end{center}
+
+\section{Introduction}
+\subsection{Are you capable of sketching the history of databases (ancient and modern) to a colleague in a few minutes?}
+\subsection{Do you know who Edgar Codd is?}
+\subsection{Can you explain what Data Independence is, and why it is important?}
+\subsection{Do you know the rough conceptual difference between data, information, and knowledge?}
+\subsection{Can you cite the five fundamental shapes of data, and how structured data can be characterized?}
+\subsection{Can you briefly explain what a data model is?}
+\subsection{Do you know the 8 standard prefixes of the International System of Units (when the exponent in base 10 is a positive multiple of 3)?}
+\subsection{Can you list the main four technologies commonly referred to as NoSQL?}
+\subsection{Do you know the three Vs?}
+\subsection{Can you briefly define capacity, throughput and latency? Do you know their typical units?}
+\subsection{Can you explain why and how the evolution of capacity, throughput and latency over the last few decades has influenced the design of modern databases?}
+\subsection{Can you name a few big players in the industry that accumulate and analyze massive amounts of data?}
+\subsection{Do you know the difference between bit and byte?}
+\subsection{Can you name a few concrete examples that illustrate the various orders ofmagnitude of amounts of data?}
+
+\pagebreak
+
+\section{Lessons learnt}
+\subsection{Can you explain why it is important to take into consideration whether a use case is read-intensive, or write-intensive, or in-between?}
+\subsection{Can you explain why normal forms are important?}
+\subsection{Can you describe the first normal form in simple terms?}
+\subsection{Can you describe in simple terms (that is, without knowing the details of them) how higher normal forms (like Boyce-Codd) are related to joins?}
+\subsection{Can you explain why it is common, for large amounts of data, to drop several levels of normal form, and denormalize data instead?}
+\subsection{Can you give simple examples of denormalized data?}
+\subsection{Can you explain what a declarative language is?}
+\subsection{Can you explain what a functional language is?}
+\subsection{Can you explain why it matters to design query languages that are declarative and functional?}
+\subsection{Can you describe the major relational algebra operators: select, project, group and aggregate, join, Cartesian product, union, intersection, etc?}
+\subsection{Do you know what each letter stands for in ACID and CAP?}
+\subsection{Can you explain why, for large amounts of data, CAP becomes relevant over ACID?}
+\subsection{Do you know the names of the basic components of the tabular shape at an abstract level (table, row, column, primary key) as well as the names of the most common corresponding counterparts in the NoSQL world?}
+\subsection{Do you know the basic SQL constructs: SELECT FROM WHERE, GROUP, HAVING, JOIN, ORDER BY, LIMIT, OFFSET, as well as nested queries?}
+
+\pagebreak
+
+\section{Object storage}
+\subsection{Can you describe the limitations of traditional (local) file systems?}
+\subsection{Can you explain what object storage is?}
+\subsection{Can you explain what the benefits of object storage are?}
+\subsection{Can you contrast or relate object storage with block storage, a file system, and the key-value model?}
+\subsection{Can you explain the three different ways, on the physical level, to deal with more data (scale up, scale out, write better code)?}
+\subsection{Can you explain why scaling out is less expensive than scaling up?}
+\subsection{Can you explain what aspects of the design of object storage enable scaling out and why?}
+\subsection{Do you know what a data centre is made of (racks, server nodes, storage nodes, etc.)?}
+\subsection{Do you know the difference between storage, memory, CPU and network and how the three are paramount in a cluster?}
+\subsection{Do you know rough, typical numbers (per-node storage capacity, memory, number of cores, etc.)?}
+\subsection{Do you know how storage and memory technologies (HDD, SDD and RAM) compare in terms of capacity and throughput?}
+\subsection{Can you sketch the (key-value) data model behind object storage? Can you spot instances of the key-value model in several other technologies seen in the lecture?}
+
+\pagebreak
+
+\subsection{Do you know the difference between data and metadata?}
+\subsection{Do you know the order of magnitude that can be achieved in terms of number of objects, and object size?}
+\subsection{Can you name a few big players for cloud-based object storage (vendors, consumers)?}
+\subsection{Can you describe the features of S3 and Azure Blob Storage on a high level? Do you know what a bucket and object are? What block blob storage, append blob storage and page blob storage are and how they work?}
+\subsection{Can you describe what the most important SLA (Service Level Agreement) parameters mean (e.g., latency, availability, durability) as well as their typical range?}
+\subsection{Can you describe a typical use case for object storage?}
+\subsection{Can you explain what a REST API is, what resources and methods are?}
+\subsection{Can you explain how an object storage API looks like (get and put)?}
+\subsection{Are you able to upload and download objects from S3 or Azure Blob Storage?}
+
+\pagebreak
+
+
+\section{Distributed file systems}
+\subsection{Can you explain the difference between block storage and object storage?}
+\subsection{Can you explain the difference between the (logical) key-value model and a file system?}
+\subsection{Can you contrast block storage and object storage in terms of maximum number of objects/files?}
+\subsection{Can you contrast block storage and object storage in terms of the maximum size of objects/files?}
+\subsection{Do you know the order of magnitude of a block size for a local filesystem and for a distributed file system? Can you explain the rationale behind them with respect to latency and throughput?}
+\subsection{Do you know where HDFS shines and why?}
+\subsection{Do you know that HDFS files are updated by appending atomically and why?}
+\subsection{Do you know how HDFS performs in terms of throughput and latency?}
+\subsection{Do you know the main benefits of HDFS (commodity hardware, etc.)?}
+\subsection{Can you contrast master-slave architectures to peer-to-peer architectures?}
+\subsection{Can you explain the HDFS architecture, what a namenode is and what a datanode is, how blocks are replicated?}
+\subsection{Can you sketch how the various components communicate with each other (client, namenode, datanode)?}
+\subsection{Can you point to the single points of failure of HDFS and explain how they can be addressed?}
+\subsection{Can you explain how the namenode stores the file system namespace, in memory and on disk? In particular, can you explain how the namespace file and the edit log work together at startup time and how they get modified once the system is up and running?}
+\subsection{Can you explain what a standby namenode is, what it is and what it is not?}
+\subsection{Are you able to use the HDFS shell commands (creating directories, reading, uploading and downloading files, etc.)?}
+
+\pagebreak
+
+\section{Syntax}
+\subsection{Can you describe why syntax is relevant to data management and to Big Data, for all data shapes?}
+\subsection{Can you give examples of syntax for trees? For tables? (The two data shapes extensively covered in the lecture)}
+\subsection{Can you explain what well-formedness is with respect to syntax?}
+\subsection{Can you list the XML basic building blocks (we covered document, element, attribute, text) and do you know what they look like?}
+\subsection{Can you tell whether a given XML document is well-formed, with a software (oXygen) as well as with your own eyes?}
+\subsection{Do you know the five fundamental pre-defined entities (used to escape characters: $\&$ < > ' ") and their syntax?}
+\subsection{Do you know when some characters must be escaped (e.g., < in text)?}
+\subsection{Can you list the JSON basic building blocks (object, array, string, number, boolean,null) and do you know what they look like?}
+\subsection{Can you tell whether a given JSON document is well-formed, also with your owneyes?}
+
+\pagebreak
+
+\section{Wide column stores}
+\subsection{Can you explain the limitations of the traditional relational model?}
+\subsection{Can you explain the differences and similarities between a wide column store andthe traditional relational model?}
+\subsection{Can you explain why wide column stores are called wide column stores, in particularon the storage level?}
+\subsection{Do you know and can you contrast the two ways data can be distributed(partitioning, replicating)?}
+\subsection{Can you explain the data model behind wide column stores, in particular, rows,columns, column families and cells?}
+\subsection{Can you explain the motivation behind data getting denormalized into more columnfamilies?}
+\subsection{Can you explain what aspects of an instance (table) in a column store must betypically known in advance, and which can be changed on the fly?}
+\subsection{Can you name a few big players, in particular the one behind the initial founding paper?}
+\subsection{Can you explain why HBase is based on HDFS, yet low-latency?}
+\subsection{Can you explain what regions are for wide column stores?}
+\subsection{Do you know how to identify a region based on the content of the wide columnstore?}
+\subsection{Do you know the four basic kinds of (low-level) queries in HBase?}
+\subsection{Can you describe the physical architecture of a wide column store like HBase, andcompare it with that of a distributed file system like HDFS?}
+\subsection{Do you know the physical layers of HBase (table, region, Store, Memstore, HFile,HBase block, KeyValue)?}
+\subsection{Do you know the difference between an HDFS block and an HBase block as well astheir typical sizes?}
+\subsection{Can you explain how new cells are written to HBase via the cell store?}
+\subsection{Can you explain how cells are read from HBase via both the stored HFiles and theMemstore?}
+\subsection{Can you explain what compaction and flushing is?}
+\subsection{Can you sketch the contents of an HFile and know what it corresponds to in anHBase table?}
+\subsection{Can you explain why it is crucial not to have too long column family names?}
+\subsection{Can you populate data into, and execute queries on top of HBase?}
+
+\pagebreak
+
+\section{Data models}
+\subsection{Can you explain the difference between syntax and a data model?}
+\subsection{Can you explain why and how trees can be used to model data that is denormalized(i.e., not in first normal form)?}
+\subsection{Can you relate syntaxes to data models (e.g., CSV to tables, XML/JSON to trees, ...)?}
+\subsection{Can you explain why trees modeling XML (infoset) have labels on the nodes, whiletrees modeling JSON have labels on edges?}
+\subsection{Can you name a few data models for XML (Infoset, PSVI, XDM)?}
+\subsection{Are you able, given an XML document, to sketch a tree representing that data (witha document node, elements, attributes, text, ...)?}
+\subsection{Do you know the different between an atomic type/value, and a structuredtype/value (regardless of the exact data model)?}
+\subsection{Can you name a few atomic types found across a broad number of data models?}
+\subsection{Do you know the difference between the lexical space and the value space of anatomic type?}
+\subsection{Can you tell the difference between structured types based on lists (e.g., JSON array) and maps (e.g., JSON object)?}
+\subsection{Can you give examples of type cardinalities, and their associated symbols?}
+\subsection{Can you explain the difference between well-formedness and validity? Do you knowwhat extra information you need to assess validity?}
+\subsection{Are you able to design simple XML Schemas to validate XML? Can you restrict simpletypes to allow specific values or value fulfilling specific criteria (length, pattern...)? Can you explain how to declare elements with simple types? Can you explain how to declare elements with complex types and various content models (empty, simplecontent, complex content, mixed content)?}
+\subsection{Can you tell, given an XML Schema, whether an XML document is valid against it,with software (oXygen) but also with your own eyes?}
+\subsection{Are you able to design simple JSON Schemas to validate JSON?}
+\subsection{Can you name (without details) further data modeling technologies for tree-likedata? (Avro, protocol buffers, ...)}
+\subsection{Do you understand that a table in first normal form can be seen as a homogeneouscollection of flat trees (one per row and all with the same attributes)?}
+
+\pagebreak
+
+\section{Massive parallel processing (MapReduce)}
+\subsection{Can you explain the patterns that appear in large-scale data processing: map, shuffle?}
+\subsection{Can you explain how the mastery of these patterns can bring significant improvements in performance?}
+\subsection{Can you explain the MapReduce model, also in terms of the patterns depicted above (map, shuffle, reduce)?}
+\subsection{Can you describe the physical architecture of MapReduce (map tasks, reduce tasks as well as data flow)? Can you explain version 1 of the architecture (JobTracker, TaskTrackers) and its limits?}
+\subsection{Can you outline what a map function looks like, and what a reduce function looks like?}
+\subsection{Do you know the main input and output types of MapReduce?}
+\subsection{Can you explain how combining improve MapReduce's performance?}
+\subsection{Can you state the assumptions behind reusing the reduce function as a combinefunction?}
+\subsection{Do you understand, in some simple cases, how to design a combine function thatwould make a MapReduce job faster, even if the combine function is not the exact same as the reduce function? (Example: computing an average, which requires keeping track of the weights in the output of the combine function).}
+\subsection{Can you explain why MapReduce shines on top of a distributed file system: "Bring the query to the data"?}
+\subsection{Can you explain why MapReduce especially makes sense when the bottleneck is the speed of reading and writing data from the disk (as opposed to other bottlenecks such as storage capacity or CPU usage)?}
+\subsection{Can you explain how MapReduce splits differ from HDFS blocks, what impedance mismatches arise and how they are addressed?}
+\subsection{Do you know what the Java API of MapReduce looks like on a high level (Version 2 of the API that we covered, not to be confused with Version 2 of MapReduce running on YARN)?}
+
+\pagebreak
+
+\section{Resource Management}
+\subsection{Can you explain how YARN works, and how it can be used to improve MapReduce, and to support other technologies like Spark?}
+\subsection{Can you describe the YARN components?}
+\subsection{Do you know what a ResourceManager does?}
+\subsection{Do you know what a NodeManager does?}
+\subsection{Do you know what and where a Container is?}
+\subsection{Do you know what an ApplicationMaster is and does?}
+\subsection{Can you list the main resources that are managed in a cluster? (Disk storage,memory, CPU, network I/O).}
+\subsection{Can you explain, in simpler words, what the added value of YARN is? Can you explainwhat it is an improvement over the first version of MapReduce, which was taking care of resource management on its own, and had issues with this?}
+
+\pagebreak
+
+\section{Massive parallel processing (Spark)}
+\subsection{Can you explain how Spark is more powerful than MapReduce on a data model level?}
+\subsection{Can you explain what a Resilient Distributed Dataset (RDD) is?}
+\subsection{Do you know the difference between an action and a transformation?}
+\subsection{Do you know the main actions and transformations available in Spark?}
+\subsection{Are you able to classify transformations and actions in various buckets (those thatwork on any value, those that work on key-value pairs, unary binary transformations, ...)?}
+\subsection{Can you describe how transformations run physically (tasks, stages...)?}
+\subsection{Can you explain when and how a series of transformations can be optimized bykeeping the same set of machines with no network communication between the transformations?}
+\subsection{Can you explain what a stage is? Can you relate it to transformations? To tasks? ToJobs?}
+\subsection{Can you tell why and when shuffling is needed? In other words, can say whether atransformation has a narrow dependency or a wide dependency?}
+\subsection{Can you easily draw a directly acyclic graph for a Spark job, and mark the stages?}
+\subsection{Do you understand why keeping an RDD persisted can be useful and improveperformance?}
+\subsection{Can you explain how controlling the way data is partitioned can make executionfaster because we can influence stages?}
+\subsection{Can you explain what a DataFrame is and what its benefits are?}
+\subsection{Can you describe the limitations of DataFrames?}
+\subsection{Can you write queries on DataFrames, both in Spark SQL or using DataFramestransformations?}
+
+\pagebreak
+
+\section{Document stores}
+\subsection{Do you understand how collections in documents store generalize the concept of a relational table?}
+\subsection{Can you explain what documents store can do that relational databases cannot (e.g., heterogeneous collections, schema-less collections, data denormalized into trees...)?}
+\subsection{Do you know how to issue MongoDB queries on a low level? Do you know the parameters of the find() function? (query, then projection, then sorting)?}
+\subsection{Can you explain how, in a document store, the documents can be sharded and replicated?}
+\subsection{Do you understand how indices can make queries faster, like in relational databases?}
+\subsection{Do you know what kinds of indices there are (hash, B-trees)?}
+\subsection{Are you capable of telling if an index is useful to a given query, for simple settings(for example, an index on a single field and a query that selects on that field)?}
+\subsection{Do you know that a compound index (e.g., on keys a and b) can also be used as anindex on any prefix of the compound key (e.g., on key a only) "for free"?}
+
+\pagebreak
+
+\section{Querying trees}
+\subsection{Can you explain why a language such as JSONiq provides, in the context of document stores, exactly the same functionality as SQL in a relational database?}
+\subsection{Can you name the first-class citizen of the JDM (sequence of items)?}
+\subsection{Can you name various kinds of items in the JDM?}
+\subsection{Can you name a few query languages in the XML/JSON ecosystem?}
+\subsection{Are you able, in JSONiq, to construct items (atomic items, elements, etc.)?}
+\subsection{Are you able, in JSONiq, to perform logical operations? Do you understand what theEffective Boolean Value of a sequence and how it relates to logical operations?}
+\subsection{Are you able, in JSONiq, to perform arithmetic operations (addition, etc.)? Do youunderstand the constraints on the input sequences of such operations? Can you explain the behavior of these operations on empty sequences? Can you explain what happens if one of the two operands is a node and not an atomic item?}
+\subsection{Are you able, in JSONiq, to perform comparisons (lt, ge, etc.)? Do you understand the constraints on the input sequences of such operations? Can you explain the behavior of these operations on empty sequences? Can you explain what happens if one of the two operands is a node and not an atomic item?}
+\subsection{Do you understand how general comparisons (<, >=, etc.) work on sequences with more than one item, and implicitly use an existential quantifier)?}
+\subsection{Do you understand how FLWOR expressions work and describe what they return? (for clause, let clause, where clause, order by clause, etc.)}
+\subsection{Are you able to use further expressions (if-then-else, switch, ...)?}
+\subsection{Do you understand how to dynamically build JSON content with object and arrayconstructors?}
+\subsection{Do you understand that expressions can be combined at will, as any expression takesand returns sequences of items? Do you know how to use parentheses to make precedence clear, like you did in primary school with + and *?}
+\subsection{Do you know the JSONiq type syntax (atomic types taken from XML Schema, syntaxfor object and array types, as well as cardinality symbols), and how to use typechecking (instance of, cast as, etc.)?}
+\subsection{Given a collection of JSON objects (for example JSON Lines on HDFS), are you able touse Rumble to write JSONiq queries (FLWOR) that do projection? selection? (weleave grouping, join, ... aside in the context of this lecture, however you need to know that this can be done with JSONiq as well).}
+
+%\end{multicols}
+\end{document}
