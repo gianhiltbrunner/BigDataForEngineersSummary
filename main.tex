@@ -8,6 +8,8 @@
 \usepackage{hyperref}
 \usepackage{framed}
 
+\setcounter{tocdepth}{1}
+
 \title{Big Data For Engineers}
 \author{Gian Silvan Hiltbrunner}
 \date{June 2020}
@@ -23,15 +25,36 @@
     \color{red}
     \begin{framed}
     \noindent Parts of the information provided within this document may be incomplete and/or incorrect. For corrections please submit a pull request to:
-    \url{http://github.com/protelescristata/SummaryComputationalBiology}
+    \url{https://github.com/gianhiltbrunner/BigDataForEngineersSummary}
     \end{framed}
 \end{center}
 
+\tableofcontents
+
 \section{Introduction}
 \subsection{Are you capable of sketching the history of databases (ancient and modern) to a colleague in a few minutes?}
+
+Early forms of databases include natural forms of information storage such as speaking, singing and writing. These forms became more complex in time when people performed simple accounting tasks using stone inscriptions and later on when books became widespread with the invention of the book press. The computer then finally enabled us to store and manage data on much larger scales. 
+
+In the 1960s file systems were introduced allowing simple forms of data managment, in the 1970s relational table databases such as SQL were introduced allowing systematic queries. In the 2000s other databases became more popular (NoSQL), these include key-value stores, triple stores, document stores and column stores. 
+
 \subsection{Do you know who Edgar Codd is?}
+
+Edgar Codd was an English computer scientist who invented the relational model for database management, the theoretical basis for relational databases.
+
 \subsection{Can you explain what Data Independence is, and why it is important?}
+
+The actual data and application programs acting on the data remain unimpaired even if the storage representation or access methods are changed. This is important when we want to store small scale data on a single hard drive and store large scale data on cluster infrastructure but essentially want to access the data in the same manner. 
+
 \subsection{Do you know the rough conceptual difference between data, information, and knowledge?}
+
+\begin{itemize}
+    \item Data is conceived of as symbols or signs, representing stimuli or signals lacing any interpretation. 
+    \item Information is inferred from data", in the process of answering interrogative questions (e.g., "who", "what", "where", "how many", "when"), thereby making the data useful for "decisions and/or action".
+    \item Knowledge represents information combined with understanding, capability and experience. 
+\end{itemize}
+
+
 \subsection{Can you cite the five fundamental shapes of data, and how structured data can be characterized?}
 \subsection{Can you briefly explain what a data model is?}
 \subsection{Do you know the 8 standard prefixes of the International System of Units (when the exponent in base 10 is a positive multiple of 3)?}
