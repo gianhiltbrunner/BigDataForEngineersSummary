@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{framed}
+\usepackage{float}
 
 \setcounter{tocdepth}{1}
 
@@ -56,25 +57,135 @@ The actual data and application programs acting on the data remain unimpaired ev
 
 
 \subsection{Can you cite the five fundamental shapes of data, and how structured data can be characterized?}
+
+Text, Tables, Trees, Graphs and Cubes
+
+\begin{itemize}
+    \item Data conforms to a data model and has easily identifiable structure
+    \item Data is well organised so, Definition, Format and Meaning of data is explicitly known
+    \item Data resides in fixed fields within a record or file
+    \item Similar entities are grouped together to form relations or classes
+    \item Entities in the same group have same attributes
+    \item Easy to access and query, So data can be easily used by other programs
+    \item Data elements are addressable, so efficient to analyse and process
+\end{itemize}
+
 \subsection{Can you briefly explain what a data model is?}
+
+Underlying Questions 
+
+\begin{itemize}
+    \item How does the data look like?
+    \item What can be done with the data?
+\end{itemize}
+
+\noindent A data model is an abstract model that organizes elements of data and standardizes how they relate to one another and to the properties of real-world entities. For instance, a data model may specify that the data element representing a car be composed of a number of other elements which, in turn, represent the color and size of the car and define its owner.
+
 \subsection{Do you know the 8 standard prefixes of the International System of Units (when the exponent in base 10 is a positive multiple of 3)?}
+
+\begin{table}[H]
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Prefix} & \textbf{Digits}                              \\ \hline
+kilo (k)        & 1,000 (3 zeros)                              \\ \hline
+Mega (M)        & 1,000,000 (6 zeros)                          \\ \hline
+Giga (G)        & 1,000,000,000 (9 zeros)                      \\ \hline
+Tera (T)        & 1,000,000,000,000 (12 zeros)                 \\ \hline
+Peta (P)        & 1,000,000,000,000,000 (15 zeros)             \\ \hline
+Exa (E)         & 1,000,000,000,000,000,000 (18 zeros)         \\ \hline
+Zetta (Z)       & 1,000,000,000,000,000,000,000 (21 zeros)     \\ \hline
+Yotta (Y)       & 1,000,000,000,000,000,000,000,000 (24 zeros) \\ \hline
+\end{tabular}
+\end{table}
+
 \subsection{Can you list the main four technologies commonly referred to as NoSQL?}
+
+\begin{itemize}
+    \item Key-value stores
+    \item Triple stores
+    \item Column stores
+    \item Document stores
+\end{itemize}
+
 \subsection{Do you know the three Vs?}
+
+
+Big Data is defined by the three Vs.
+\begin{itemize}
+    \item \textbf{Volume}: High amount of data.
+    \item \textbf{Variety}: Different types and structures. 
+    \item \textbf{Velocity}: High rate of data throughput. 
+\end{itemize}
+
+
+
 \subsection{Can you briefly define capacity, throughput and latency? Do you know their typical units?}
+
+\begin{itemize}
+    \item \textbf{Capacity}: Volume of the stored data. (GB)
+    \item \textbf{Throughput}: Speed of data transmission. (kbit/sec)
+    \item \textbf{Latency}: Time until data is being received. (sec)
+\end{itemize}
+
 \subsection{Can you explain why and how the evolution of capacity, throughput and latency over the last few decades has influenced the design of modern databases?}
+
+While the capacity has increased 200,000,000,000 fold, the throughput has increased only 10,000 fold and the latency only 8 fold. 
+
 \subsection{Can you name a few big players in the industry that accumulate and analyze massive amounts of data?}
+
+Google, AWS (Amazon Web Services), Microsoft Azure and many more
+
 \subsection{Do you know the difference between bit and byte?}
-\subsection{Can you name a few concrete examples that illustrate the various orders ofmagnitude of amounts of data?}
+
+One byte is a collection of 8 bits where a bit represents the most basic form of information storage: 1 or 0. 
+
+\subsection{Can you name a few concrete examples that illustrate the various orders of magnitude of amounts of data?}
+
+
 
 \pagebreak
 
 \section{Lessons learnt}
 \subsection{Can you explain why it is important to take into consideration whether a use case is read-intensive, or write-intensive, or in-between?}
+
+
+Write Intensive $\rightarrow$ \textbf{OLTP} (On-line Transaction Processing) is involved in the operation of a particular system. OLTP is characterized by a large number of short on-line transactions (INSERT, UPDATE, DELETE). The main emphasis for OLTP systems is put on very fast query processing, maintaining data integrity in multi-access environments and an effectiveness measured by number of transactions per second. In OLTP database there is detailed and current data, and schema used to store transactional databases is the entity model (usually 3NF). It involves queries accessing individual record like updating an email record in a database.\\\\
+
+\noindent Read Intensive $\rightarrow$ \textbf{OLAP} (On-line Analytical Processing) deals with historical data or archival data. OLAP is characterized by a relatively low volume of transactions. Queries are often very complex and involve aggregations. For OLAP systems a response time is an effectiveness measure. OLAP applications are widely used for data mining applications. In an OLAP database there is aggregated, historical data, stored in multi-dimensional schemas. Queries often access large amounts of data. 
+
 \subsection{Can you explain why normal forms are important?}
+
+Normal forms are important to reduce data redundancy and improve data integrity. This is achieved by making sure that the data follows a set of rules corresponding to each of the normal forms.
+
 \subsection{Can you describe the first normal form in simple terms?}
+
+The first normal form expects the data to have a primary key ("id"), no repeating groups of entries (Not having columns such as "ChildName1" and "ChildName2") and atomicity of entries (No column such as "Children" with value e.g. "Max, Pia"). 
+
 \subsection{Can you describe in simple terms (that is, without knowing the details of them) how higher normal forms (like Boyce-Codd) are related to joins?}
+
+Higher order forms make sure that the data conforms to certain rules, thus when joining tables less conflicts occur. ({\color{red}Possibly needs extension!})
+
+
 \subsection{Can you explain why it is common, for large amounts of data, to drop several levels of normal form, and denormalize data instead?}
+
+Denormalization is used to increase performance and scalability for large datasets. This leads to a increase in read performance while write performance suffers. This is due to the fact that relational databases need to perform many expensive JOIN operations when data is retrieved. These operations are prohibitively costly for very large datasets. 
+
+\begin{itemize}
+    \item[+] Retrieving data is faster since we do fewer joins
+    \item[+]Queries to retrieve can be simpler(and therefore less likely to have bugs), since we need to look at fewer tables.
+    \item[-]Updates and inserts are more expensive.
+    \item[-]Denormalization can make update and insert operations more complex.
+    \item[-]Data may be inconsistent.
+    \item[-]Data redundancy necessitates more storage.
+\end{itemize}
+
+
+
+
 \subsection{Can you give simple examples of denormalized data?}
+
+
+
 \subsection{Can you explain what a declarative language is?}
 \subsection{Can you explain what a functional language is?}
 \subsection{Can you explain why it matters to design query languages that are declarative and functional?}
