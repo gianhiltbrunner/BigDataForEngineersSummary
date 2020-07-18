@@ -1,0 +1,174 @@
+What is data independence?	It refers to the immunity of user applications to changes made in the definition and organization of data.
+What is the overall architecture of a database management system?	It contains a language (e.g. SQL), a model (a table), a compute layer and a storage layer.
+What is a synonym for a table&nbsp;	A collection
+What are synonyms for a columns?	Attribute, column, field, property
+What are synonyms of a primary key?	Row ID, Name
+What is a synonym for a row?	A business object, an item, and entity, a document or record
+What are the three types of ways to break integrity in tabular data?	Tabular, atomic and domain integrity.
+What is tabular integrity	Som rows are missing, some columns undefined for certain rows.
+What is atomic integrity?	It's the fact that a table does not contain other tables, each cell is an atomic type.
+What is domain integrity	Not all rows have the same type for the same column, e.g. some booleans are 0 1 or true false
+How does NoSQL relate to SQL?	SQL does not allow any of the breaks in integrity, whereas NoSQL encompasses the rest.
+What are the different relational queries that can be made on a database?	Set queries, filter queries, renaming queries, binary queries.
+Name Set queries	Union, substraction, intersection
+Name some filter queries	Selection, projection
+What is a projection?	Selecting attributes
+Name some renaming queries	Relation renaming, attribute renaming
+Name some binary queries	Cartesian product, natural product, theta join
+What is the cartesian product?	"It includes all possible combinations of rows and columns<img src=""paste-417b96380aa131b5679ba8d62596f106ed57e7ec.jpg"">"
+What are the ways to break the consistency of a table?	Update anomaly, delete anomaly, insert anomaly
+What is database normalization?	<b>Database normalization</b> is the process of structuring a relational database&nbsp;in accordance with a series of so-called normal forms in order to reduce data redundancy and improve data integrity.
+What are the requirements for a 1NF?	4 rules:<div>1.&nbsp; Each column should contain atomic values.</div><div>2. A column should contain values that are of the same type.</div><div>3. Each column should have the same name</div><div>4. Order in which data is stored does not matter.</div>
+What are the requirements for a table to be in second normal form?<div><br></div>	It should be in 1st normal form and it should not have any partial dependencies
+What does dependency mean in the context of a table?	The value of a given row determines the value of the primary key
+What is partial dependency?	It occurs when a primary key determines the outcome of another attribute or set of attributes. E.g. teacher id depends strictly on subject id.
+What are the conditions for a table to be in 3rd normal form?	It should be in 2nd normal form and not have transitive dependency
+What is transitive dependency?	The attribute depends on some other non primary attribute.
+What is Boyce-Codd Normal Form (BCNF)?	It must be in the third normal form and a prime attribute must not depend on a non-prime attribute
+What is the 4th normal form?	Must be in 3rd normal form and should not contain multi-valued dependencies
+What is multi-valued dependencies?	* For A derives B, for a single value of A, more than one value of B exists.<div>* The table must have at least three columns</div><div>* For this table with A,B,C columns, B and C should be independent<br></div>
+What is the 5th normal form?	Should be in 4th normal form and should not have a join dependency
+What is join dependency?	It is a relationship that allows you reconstruct the data if the tables are separated. If a join dependency does not exist then either data is lost or new entries are created.
+&nbsp;What is the difference between the data manipulation language and a data definition language?	DML: query, insert &amp; remove rows<br><div>DDL: create table/schema, drop it</div>
+What is a database schema?	It is its structure described in a formal language supported by the database management system (DBMS)
+What are the conditions that a transaction must fulfill if the database should remain healthy?	ACID: Atomicity, consistency, isolation and durability
+What is atomicity?	Either the entire transaction is applied or none of it. (rollback)
+What defines the consistency of a transaction?&nbsp;	after a transaction, the database is in a consistent state again (i.e. any given database transaction must change affected data only in allowed ways)
+What is isolation in the context of database transactions?	In database systems, <b>isolation</b> determines how transaction integrity is visible to other users and systems.
+What is durability in the context of database transactions?	The updates may mot dissapear again
+What are the new sets of criteria that databases should comply to?	The CAP theorem: consistency, availability and partition tolerance
+What is atomic consistency according to this new paradigm?	All nodes see the same data.
+What does availability mean in the context of modern data transactions?	It should be possible to query the database at all times.
+What does partition tolerance in the context of modern data transactions?	The database should continue to function even if the network gets partitioned.
+What are the three Vs in Big data?	Volume, variety and velocity
+What are the prefixes of the international systems of units?	kilo = 3<div>mega = 6&nbsp;</div><div>giga = 9</div><div>tera = 12</div><div>peta = 15</div><div>exa = 18</div><div>zetta = 21</div><div>yotta = 24</div>
+What are the difference shapes data can adopt?	Tables, trees, graphs, cubes, text,
+What are the key determinants of data velocity?	Capacity, throughput and latency
+What is big data?	It's a portfolio of technologies that were designed to store, manage and analyze data that is too large to fit on a single machine while accomodating for the issue of growing discrepancy between capacity, throughput and latency.
+What is the main difference between SQL and NoSQL databases?	The first, second and third normal forms need not be respected. Heterogenous, nested and denormalized data are allowed.&nbsp;
+What are the key differences in terms of the properties that need to be respected by transactions in SQL vs. NoSQL databases?	SQL: ACID (atomicity, consistency, isolation, durability).&nbsp;<div>NoSQL: CAP (atomic consistency, availability, partition tolerance and eventual consistency)</div>
+What is eventual consistency?	<b>Eventual consistency</b> is a consistency model used in distributed computing to achieve high availability that informally guarantees that, if no new updates are made to a given data item, eventually all accesses to that item will return the last updated value.
+"What are the elements included in ""The stack""?"	"<img src=""paste-de98fe9d38a93a58afd57305d5324940c3f4fde9.jpg"">"
+What are some storage systems?	Local filesystem, NFS, GFS, HDFS, S3, Azure Blob Storage
+What are some examples of encodings?	ASCII, ISO-8859-1, UTF-8, BSON
+Name some examples of syntaxes.	Text, CSV, XML, JSON, RDF/XML, Turtle, XRBL
+What are some examples of data models?	Tables: relational model<div>Trees: XML Infoset, XDM</div><div>Graphs: RDF</div><div>Cubes: OLAP</div>
+What is a schema? and what is data validation in the stack?	"The term ""schema"" refers to the organization of data as a blueprint of how the database is constructed (divided into database tables in the case of relational databases). The formal definition of a database schema is a set of formulas (sentences) called integrity constraints imposed on a database."
+Name some examples of processing layers in the stack.	Two-phase processing: MapReduce<div>DAG-driven processing: Tez, Spark, Flink, Ray</div><div>Elastic computing: EC2</div>
+What are ways to index data in the stack?	Key-value stores, hash indices, B-trees, Geographical indices, spatial indices
+What are the difference data stores in the stack?	RDBMS: relational database management system&nbsp;<div>MongoDB</div><div>CouchBase</div><div>ElasticSearch</div><div>Hive</div><div>HBase</div><div>MarkLogi</div><div>Cassandra</div>
+What are the ways to conduct queries on the stack?	SQL, XQuery, JSONiq, N1QL, MDX, SPARQL, REST APIs.
+Name some examples of interaces of the stack	Excel, Access, Tableau, Qlikview, BI tools
+What is a file made of?	Content and metadata
+How can distributed systems be scaled?<div>What does this lead to?</div>	1. The hierarchical filesystem is thrown away<div>2. The metadata is made flexible&nbsp;</div><div>3. The datamodel is made trivial</div><div>4. We use commodity hardware</div><div>This leads to Object storage</div>
+What is object storage?	It contains:<div>+ Black-box objects</div><div>+ Flat and global key-value model</div><div>+ Flexible metadata</div><div>+ Commodity hardware&nbsp;</div>
+What is scaling up vs scaling out?	Out: more machines<div>Up: better machines</div>
+How do prices compare in scale up compared to scale out?	"<img src=""paste-8a7ac37386b0548a30ef8bd9ee0702c87fee3df6.jpg""><br><div><br></div>"
+What is the network bandwidth for a server?	1-100 GB/s for a server
+What is the amazon S3 model?	Each bucket is assigned an ID, and each object within that bucket is assigned an object ID. Each object can max be 5 TB.
+What do the 9s in a service level agreement imply in terms of yearly downtime?	"<img src=""paste-2625b6bfe2360ddf9364a1eae0d66d5577300979.jpg"">"
+What are the differnet parts of a URI?	"<font color=""#aa0000"">http</font>:<font color=""#005500"">//www.mywebsite.ch</font>/<font color=""#aa5500"">api/collection/foo/object/bar</font><font color=""#00aa00"">?id=foobar</font><font color=""#aaaa00"">#head</font><div>In order: scheme, authority, path, query, fragment</div><div><br></div>"
+What are the methods in HTTP?	"<img src=""paste-9ac6f95807de8df32bd19dea578d5c14b2b96433.jpg"">"
+What are the HTTP protocol? Give an example	"<b>Two things</b>:<div>Request - method/URI [Header] [Body]</div><div>Response - status code [Header] [Body]<img src=""paste-bd6f022de7f78248ffd764b4d6a3b83e921afb86.jpg""></div><div><br></div>"
+What is a feature of a GET request?	It is side-effect free, i.e. GET should not change the state of the server. In other words, they should not have side effects, beyond relatively harmless effects such as logging, web caching, the serving of banner advertisements or incrementing a web counter.
+A PUT request is idempotent. What does it mean?	An idempotent method means that the result of a successful performed request is independent of the number of times it is executed.
+What is a request that is more generic and that can have wider side effects?	POST request.
+To what structures can PUT, DELETE and GET be applied through the Amazon S3 API?	Buckets and objects
+What are the different types of faults that can happen?	Local (node failure)<div>Regional (natural catastrophe)</div>
+What are the advantages of having different regions?	Optimize latency and improve resilience to natural catastrophes
+How do companies deal with availability?	price differently, lower availability also higher latency
+How do Amazon and Microsoft compare in their storage offerings?	"<img src=""paste-d21dfbf24cdf85bfb23b7f51c33747b36d9e429f.jpg"">"
+How does the storage stamp look like on Azure?	"<img src=""paste-ce09985309b92bae976a0b89c45fbcefbcb43c80.jpg"">"
+How much storage is contained in a storage stamp?	10-20 racks*18 storage nodes/rack (30PB) kept below 70/80% storage capacity
+How is intra-stamp storage replicated? How is inter-stamp storage replicated?	intra - Synchronously<div>inter - Asynchronously<br><div><br></div></div>
+What do location services provide? Give examples of regional location services	"They map the account name to one virtual IP to the DNS. They redirect the requests to a stamp via a primary virtual IP and other stamps elsewhere via other virtual IPs to other regions.<div><br></div><div>&nbsp;Examples include north america, europe and asia</div><div><img src=""paste-d69ffac9d61b77dee56f507b9b7577b6e3daed6f.jpg""><br></div>"
+What goes to and from the DNS to the location services? What does to the stamp from the location services?	"To DNS: account name<div>From DNA: primary stamp's VIP</div><div>To stamps (primary VIP first): partition + object</div><div><img src=""paste-20e3ce021a8fea4e92e70ecfd1b2e5e3cd911daa.jpg""><br></div>"
+What is the Amazon mindset of building their AWS platform?	"<img src=""paste-70f189f36ce16685188db50090cabc85adec082c.jpg"">"
+What is the Azure mindset to build their platform?	"<img src=""paste-9aa38cdd2cc9cbcfbbd977c69902f1555031d96e.jpg"">"
+Overall, how do we scale out?	1. Simplify the model<div>2. Buy cheap hardware</div><div>3. Remove schemas</div>
+What are the two use cases of Big Data?	"A huge amount of large files (which can fit on a single machine) or a large amount of huge files, which cannot fit on a single machine.<div><br></div><div>i.e.&nbsp;</div><div><br></div><div>Billions of TB files (object storage)</div><div><br></div><div>Millions of PB files (file storage)</div><div><img src=""paste-86242f59582d77187e45462fc7eab6419ec219c4.jpg""><br></div><div><img src=""paste-1ecb0b8b118c4795fce20871dd8a71ef328904ba.jpg""><br></div>"
+What are the technologies used for storing billions of sub tb files vs. millions of pb files?	Key-value model + object storage<div>File system + block storage</div>
+What was the first distributed file system?	Google FS
+What is the inevitability to consider when designing a distributed file system?	The fact that hardware will fail.
+What leads up to fault tolerance?	Monitoring, error detection, and automatic recovery
+What are the different file read models of sub tb files vs. millions of pb files? How about the file update model?	random access vs. scanning of the file/appending to the file
+What is the file update model suitable for?	Sensor data, logs, and intermediate data
+What is the top requirement in a distributed file system?	Throughput is the top priority, secondary is latency
+When was hadoop started?	2006
+What are the three core elements of Hadoop?	A distributed file system (HDFS)<div>MapReduce</div><div>Wide column store (HBase)</div>
+What was Hadoop inspired by?	GFS, MapReduce and BigTable
+What is the logical model of file systems vs. key-value model?	"There is a hierarchical component to the file system model<img src=""paste-62535c5dc5b01dd34482323dcb1031e3c52fc783.jpg"">"
+What is the difference in physical storage in file systems vs key-value models?	Object storage are used for sub tb case and block storage for sub pb
+What is the elementary unit of HDFS vs. GFS?	A block for HDFS and a chunk for GFS
+How to the blocks and the hierarchy relate?	"<img src=""paste-395af33ff84ef4916eae59ac6229f0b12fb23322.jpg"">"
+Why are blocks used in file systems? Give two reasons	1. Files are larger than a disk (PBs)<div>2. Provide a simpler level of abstraction</div>
+What is involved in choosing the right block size?	Too small, annoying for large amounts of blocks. Too big: doesn't fit the data cluster's capacity.&nbsp;<div>For individual machines, one usually has 4kb of blocks for simple file systems. For relational databases, anywhere from 4kb to 32 kb and in distributed file systems we have anywhere between 64 and 128 MB blocks.</div>
+How are computed related to each other in a HDFS?	"Master-slave architecture. With namenodes and datanodes.<div>The information in the datanode is replicated for fault tolerance.&nbsp;</div><div><img src=""paste-04407e7a2808cbad53eb6f53f67b7f79bf55d1ff.jpg""><br></div>"
+What does this master-slave architecture provide?	This provides the ability for the namenode to be accessed concurrently.
+What is in the namenode?	File namespace + access control and file to block mapping and block locations
+What does a datanode contain?	Data, in the form of blocks, on the disk
+What does a datanode provide as an advantage?	Close to the hardware, which facilitates disk failure detection
+What are the different communication protocols in a HDFS?	Client protocol between namenode and client. DataTransfer protocol between client and datanode and file writing pipeline and replication for communication between data nodes.
+What are the elements of the client protocol?	Client sends to namenode metadata operations. Namenode sends back datanode location block IDs
+Who initiates the connection between a namenode and a datanode?	The datanode, needs to send registration, heartbeat, blockreport and blockreceived every interval of time.
+How does the data transfer protocol work?	Client connects directly to the datanodes and datablocks are send to a datanode which then replicates through pipelining to multiple other datanodes.
+What are some examples of metadata functionalities?	Create directory, delete directory, write file, append to file, read file, delete file.
+What happens if a client wants to read a file?	Client asks for the file to the namenode<div>The client gets block locations, multiple datanodes for each block sorted by distance.</div><div>The datanodes send their inputstream to the client</div>
+What happens if a client wants to write a file?	Client sends create instruction.<div>Datanodes for the first block is received.</div><div>The writing pipeline is organized</div><div>Send the data over</div><div>Ack signal is sent once done (acknowledgment)</div><div>The namenode sends the datanodes for the second block</div><div>The writing pipeline is organized<br></div><div><div>Send the data over</div><div>Ack signal is sent once done (acknowledgment)</div></div><div><br></div>
+What is te default number of replicas per block?	3
+What is often the minimum distanc between two blocks?	4
+How are replicas placed?	1. Same node as client or random, rack A<div>2. A node in a different rack B</div><div>3. A node in the same rack B</div><div>4. Random, at most one replica per node and two per rack</div>
+If rep 1 and 2 were on same rack what would happen?	If failure, only one copy left.
+Why 2 and 3 on same rack?	Better throughput
+What is the problem with this slave master architecture?	Master represents a single point of failure
+What do you want to have persist of the namenode?	The file namespace and the block id mapping, not the locations.
+Why is the persistence of the block locations not required?	Can be provided via heartbeat protocol to master and data reconstituted this way.
+What, in addition to the namespace file, do you also want to have persist while master is down?	The edit log to play through once restored.&nbsp;
+How is the namenode restored?	After 30 minutes. Namespace file restored, then edit log is played through, then reconstitute locations for blocks.
+How long does the restoring of a namenode require in naive conditions?	30 minutes
+What are the tricks to reduce downtime after namenode knockout?	1. Make checkpoints to avoid having to play through the edit log unecessarily<div>2. Have standby namenodes</div><div>3. Have federated DFS to have multiple namenodes that have all the information necessary</div>
+How is HDFS used?	Via shell, just like posix
+Hoe can the populating of the HFDS be achieved?	Through collection, aggregation and moving of log data into HDFS using Apache Flume, Sqoop
+How are objects identified in azure blob storage?	Account ID + Container ID + Blob ID
+How are objects identified in S3?	Bucket ID + Object ID
+What kind of objects can you create in Azure Blob Storage?	3 types of blobs: BlockBlob, PageBlob, AppendBlob
+What kind of objects can you create in Amazon S3?	Blackbox objects
+What changes when doing NoSQL?	The data is denormalized: 1st, 2nd, 3rd, B-C normal form etc is discarded
+When is normalization useful and when is denormalization useful?	When data is write intensive, normalized data is useful to avoid update anomalies. When the data is read-intensive, the data needs to be highly denormalized because joins need to be avoided (intensive operation, requires a lot of processing and introduces latency).
+What is data denormalized to first normal form?	A collection tuples.
+What property do tuples have when nestedness is allowed?	Avoid repetition and data takes up less space.
+What does a homogeneous collection of flat items in a relational database become in the NoSQL world?	They become a heterogeneous collection of arborescent items in a document store.
+What are semi structured documents?	"<img src=""paste-4a0598d506ee4078e006ce4a571f7e6667c3aa9c.jpg"">"
+Who issues the standards for XML and JSON	XML: W3C<div>JSON: ECMA</div>
+What is the advantage of JSON and XML?	They are understood both by humans and machines.
+What is well-formedness?	You check whether a statement belongs to the language, as each syntax has its own language.
+What are the six types of elements in a JSON string?	Strings, numbers, booleans, null, arrays and objects.
+"Is the string&nbsp;{ ""foo"" : ""bar"", ""foo"" : ""bar2"" } well formed?"	No, twice the same key
+"Is the string { [ 1 ] : ""bar"", 2 : ""bar2"" } well-formed?"	No, keys are not strings
+What are tags in XML? Given examples of three different types of tags	Opening tag: &lt;foo&gt;<div>Closing tag: &lt;/foo&gt;</div><div>Empty tag: &lt;foo/&gt;=&lt;foo&gt;&lt;/foo&gt;</div>
+What is an XML attribute? Give an example	"&lt;a attr=""value""/&gt;"
+How is text inserted in XML?	&lt;a&gt;This is text&lt;/a&gt;
+What are the remaining elements that are not tags, attributes or texts?	Comments and processing instructution<div>&lt;!-- This is a comment --&gt;<br></div><div>&lt;?myapp do whatever ?&gt;<br></div>
+What is the first line of an XML file?	"Text declaration:<div>&lt;?xml version=""1.0"" encoding=""UTF-8""?&gt;<br></div>"
+"Is this statement well-formed?<div>&lt;?xml version=""1.0"" encoding=""UTF-8""?&gt;<br>&lt;foo/&gt;<br></div>"	Yes
+Is this statement well-formed?<br><div>&lt;foo/&gt;<br></div>	Yes
+"Is this statement well formed?<div>&lt;?xml version=""1.0"" encoding=""UTF-8""?&gt;<br>&lt;foo/&gt;<br>&lt;bar/&gt;<br></div>"	Yes
+"Is this statement well-formed?<div>&lt;?xml version=""1.0"" encoding=""UTF-8""?&gt;<br>&lt;foo&gt;<br>&lt;bar/&gt;<br>&lt;/foo&gt;<br></div>"	
+"Is this statement well-formed?<div>&lt;?xml version=""1.0"" encoding=""UTF-8""?&gt;<br>text<br>&lt;foo&gt;<br>&lt;bar/&gt;<br>&lt;/foo&gt;<br>text<br></div>"	No
+"Is this statement well-formed?<div>&lt;?xml version=""1.0"" encoding=""UTF-8""?&gt;<br>&lt;foo&gt;<br>text &lt;bar/&gt; text<br>&lt;/foo&gt;<br></div>"	Yes
+"This this statement well-formed?<div>&lt;?xml version=""1.0"" encoding=""UTF-8""?&gt;<br>&lt;foo &lt;element/&gt;&gt;<br>&lt;bar&gt;&lt;/bar&gt;<br>&lt;/foo&gt;<br></div>"	No
+How does a document type declaration look like?	"&lt;?xml version=""1.0""?&gt;<br>&lt;!DOCTYPE document&gt;<br>&lt;document&gt;<br>Lorem ipsum dolor sit amet, consectetur adipiscing<br>elit, sed do eiusmod tempor incididunt ut labore et<br>dolore magna aliqua.<br>&lt;/document&gt;"
+What appears where in an XML files?	"<img src=""paste-389159b94ce5b8a0a7e7247fd787e46241dec889.jpg"">"
+"Is this statement well-formed?<div>&lt;a foo=""bar"" foo=""bar2""/&gt;<br></div>"	No
+"Is this statement well-formed?<div>&lt;a foo=""bar"" bar=""foo""/&gt;<br></div>"	Yes
+Is this statement well-formed?<div>&lt;a&gt;&lt;b&gt;&lt;/a&gt;&lt;/b&gt;<br></div>	No
+Is this statement well-formed?<div>&lt;a&gt;&lt;b&gt;&lt;/b&gt;&lt;/a&gt;<br></div>	Yes.
+Is this statement well-formed?<div>&lt;a&gt;1 &lt; 2&lt;/a&gt;<br></div>	No
+Is this statement well-formed?<div>&lt;a&gt;1 &amp;lt; 2&lt;/a&gt;<br></div>	Yes
+What are entity references? Name all of them.	"&amp;lt; =&nbsp;&lt;<br><div>&amp;gt; = &gt;<br></div><div>&amp;apos; = '<br></div><div>&amp;quot; = ""<br></div><div>&amp;amp; = &amp;<br></div>"
+What are character references? name an example	Character references refer to characters not usually found on keyboards:<div>&amp;#960; =&nbsp;π<br></div>
+What are some invalid XML names?	&lt;1234/&gt;<br><div>&lt;a&lt;b/&gt;<br></div><div>&lt;xml/&gt;<br></div>
+What are some valid XML names?	&lt;foo1234/&gt;<br><div>&lt;_bar/&gt;<br></div>
+Is whitespace important in XML?	Only for readability (can be used for pretty print, no functional significance.)
+What are the ASCII characters allowed in XML names?	"<img src=""paste-baa4094660bd2d6fb72b8d752e7640c6d7eb2b9d.jpg"">"
+What is an example of a namespace?	MathML
