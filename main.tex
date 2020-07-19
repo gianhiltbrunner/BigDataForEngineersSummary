@@ -7,12 +7,14 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{framed}
+\usepackage{amsmath}
 \usepackage{float}
+\usepackage{graphicx}
 
 \setcounter{tocdepth}{1}
 
 \title{Big Data For Engineers}
-\author{Gian Silvan Hiltbrunner}
+\author{Philip J. Hartout, Gian S. Hiltbrunner}
 \date{June 2020}
 
 \usepackage[sfdefault]{FiraSans}
@@ -163,7 +165,7 @@ The first normal form expects the data to have a primary key ("id"), no repeatin
 
 \subsection{Can you describe in simple terms (that is, without knowing the details of them) how higher normal forms (like Boyce-Codd) are related to joins?}
 
-Higher order forms make sure that the data conforms to certain rules, thus when joining tables less conflicts occur. ({\color{red}Possibly needs extension!})
+Higher order forms make sure that the data conforms to certain rules, thus when joining tables less conflicts occur.
 
 
 \subsection{Can you explain why it is common, for large amounts of data, to drop several levels of normal form, and denormalize data instead?}
@@ -184,16 +186,77 @@ Denormalization is used to increase performance and scalability for large datase
 
 \subsection{Can you give simple examples of denormalized data?}
 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{img/denormalization.png}
+\end{figure}
 
 \subsection{Can you explain what a declarative language is?}
+
+Declarative languages such as SQL describe what needs to happen but do not care about how exactly something is happening. Thus we would tell the the interpreter to fetch an entry using SELECT but not really care about how this entry is selected. (e.g. looping over the entries, etc.)
+
 \subsection{Can you explain what a functional language is?}
+
+Functional programming is a programming paradigm where programs are constructed by applying and composing functions. It is a declarative programming paradigm in which function definitions are trees of expressions that each return a value.
+
 \subsection{Can you explain why it matters to design query languages that are declarative and functional?}
+
+Declarative languages make sure that the we don't "reinvent the wheel" every time we create a query. Functional languages basically have similar benefits. They use functions to perform many operations such as map instead of looping over an array manually, thereby hiding away complexity and making code more readable. 
+
 \subsection{Can you describe the major relational algebra operators: select, project, group and aggregate, join, Cartesian product, union, intersection, etc?}
+
+\begin{itemize}
+    \item \textbf{SELECT}: Operation that subsets the data set given a condition. Such as SELECT all entries from the table Person whose age is larger than 34. ($\sigma_{\text{Age}\geq34}(\text{Person})$)
+    \item \textbf{PROJECT}: Operation that picks a subset of all columns and drops duplicate entries. From table Person (Name, Age, Weight) project the columns Age and Weight to a new table while removing the Name column and excluding duplicate entries. ($	{\displaystyle \Pi _{\text{Age,Weight}}({\text{Person}})}$)
+    \item \textbf{GROUP}: Operation that groups rows sharing the grouping property such that the groups can be aggregated in a subsequent operation. (e.g. SUM)
+    \item \textbf{AGGREGATE}: Operation that summarizes multiple rows in a summarized form. Aggregate functions include: average, sum, median, standard deviation and many others. 
+    \item \textbf{JOIN}: Operation that unites two tables by the set of tuples that match. (e.g. key) \item \textbf{CARTESIAN PRODUCT}: Operation that creates a new table based on all possible combinations.
+    \item \textbf{UNION}: Operation that combines tables from two SELECT operations. 
+    \item \textbf{INTERSECTION}: Operation that combines rows from tables that are present in both original data sets. 
+\end{itemize}
+
 \subsection{Do you know what each letter stands for in ACID and CAP?}
+
+\textbf{ACID}
+
+\begin{itemize}
+    \item Atomicity: Atomicity guarantees that each transaction is treated as a single "unit", which either succeeds completely, or fails completely.
+    \item Consistency: Consistency ensures that a transaction can only bring the database from one valid state to another, maintaining database invariants.
+    \item Isolation: Transactions are often executed concurrently (e.g., multiple transactions reading and writing to a table at the same time). Isolation ensures that concurrent execution of transactions leaves the database in the same state that would have been obtained if the transactions were executed sequentially.
+    \item Durability: Durability guarantees that once a transaction has been committed, it will remain committed even in the case of a system failure (e.g., power outage or crash).
+\end{itemize}
+
+\noindent\textbf{CAP}
+
+\begin{itemize}
+    \item Consistency: Every copy of a data set has to be modified upon completion of a transaction. Note that this is not the same as consistency in the ACID model. 
+    \item Availability: Every request receives a (non-error) response, without the guarantee that it contains the most recent write
+    \item Partition tolerance: The system continues to operate despite an arbitrary number of messages being dropped (or delayed) by the network between nodes
+\end{itemize}
+
 \subsection{Can you explain why, for large amounts of data, CAP becomes relevant over ACID?}
+
+\noindent\textbf{ACID} addresses an individual node's data consistency\\
+\textbf{CAP} addresses cluster-wide data consistency
+
 \subsection{Do you know the names of the basic components of the tabular shape at an abstract level (table, row, column, primary key) as well as the names of the most common corresponding counterparts in the NoSQL world?}
+
+\begin{table}[H]
+\begin{tabular}{|l|l|}
+\hline
+\textbf{SQL} & \textbf{NoSQL} \\ \hline
+database     & database       \\ \hline
+table        & collection     \\ \hline
+row          & document       \\ \hline
+column       & field          \\ \hline
+index        & index          \\ \hline
+primary key  & primary key    \\ \hline
+\end{tabular}
+\end{table}
+
 \subsection{Do you know the basic SQL constructs: SELECT FROM WHERE, GROUP, HAVING, JOIN, ORDER BY, LIMIT, OFFSET, as well as nested queries?}
+
+\href{https://www.codecademy.com/articles/sql-commands}{Codecademy - SQL Commands}
 
 \pagebreak
 
