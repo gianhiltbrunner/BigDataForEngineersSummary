@@ -35,9 +35,9 @@
 \section{Introduction}
 \subsection{Are you capable of sketching the history of databases (ancient and modern) to a colleague in a few minutes?}
 
-Early forms of databases include natural forms of information storage such as speaking, singing and writing. These forms became more complex in time when people performed simple accounting tasks using stone inscriptions and later on when books became widespread with the invention of the book press. The computer then finally enabled us to store and manage data on much larger scales. 
+Early forms of databases include natural forms of information storage such as speaking, singing and writing. These forms became more complex in time when people performed simple accounting tasks using stone inscriptions and later on when books became widespread with the invention of the book press. The computer then finally enabled us to store and manage data on much larger scales.
 
-In the 1960s file systems were introduced allowing simple forms of data managment, in the 1970s relational table databases such as SQL were introduced allowing systematic queries. In the 2000s other databases became more popular (NoSQL), these include key-value stores, triple stores, document stores and column stores. 
+In the 1960s file systems were introduced allowing simple forms of data managment, in the 1970s relational table databases such as SQL were introduced allowing systematic queries. In the 2000s other databases became more popular (NoSQL), these include key-value stores, triple stores, document stores and column stores.
 
 \subsection{Do you know who Edgar Codd is?}
 
@@ -45,14 +45,14 @@ Edgar Codd was an English computer scientist who invented the relational model f
 
 \subsection{Can you explain what Data Independence is, and why it is important?}
 
-The actual data and application programs acting on the data remain unimpaired even if the storage representation or access methods are changed. This is important when we want to store small scale data on a single hard drive and store large scale data on cluster infrastructure but essentially want to access the data in the same manner. 
+The actual data and application programs acting on the data remain unimpaired even if the storage representation or access methods are changed. This is important when we want to store small scale data on a single hard drive and store large scale data on cluster infrastructure but essentially want to access the data in the same manner.
 
 \subsection{Do you know the rough conceptual difference between data, information, and knowledge?}
 
 \begin{itemize}
-    \item Data is conceived of as symbols or signs, representing stimuli or signals lacing any interpretation. 
+    \item Data is conceived of as symbols or signs, representing stimuli or signals lacing any interpretation.
     \item Information is inferred from data", in the process of answering interrogative questions (e.g., "who", "what", "where", "how many", "when"), thereby making the data useful for "decisions and/or action".
-    \item Knowledge represents information combined with understanding, capability and experience. 
+    \item Knowledge represents information combined with understanding, capability and experience.
 \end{itemize}
 
 
@@ -72,7 +72,7 @@ Text, Tables, Trees, Graphs and Cubes
 
 \subsection{Can you briefly explain what a data model is?}
 
-Underlying Questions 
+Underlying Questions
 
 \begin{itemize}
     \item How does the data look like?
@@ -113,8 +113,8 @@ Yotta (Y)       & 1,000,000,000,000,000,000,000,000 (24 zeros) \\ \hline
 Big Data is defined by the three Vs.
 \begin{itemize}
     \item \textbf{Volume}: High amount of data.
-    \item \textbf{Variety}: Different types and structures. 
-    \item \textbf{Velocity}: High rate of data throughput. 
+    \item \textbf{Variety}: Different types and structures.
+    \item \textbf{Velocity}: High rate of data throughput.
 \end{itemize}
 
 
@@ -129,7 +129,7 @@ Big Data is defined by the three Vs.
 
 \subsection{Can you explain why and how the evolution of capacity, throughput and latency over the last few decades has influenced the design of modern databases?}
 
-While the capacity has increased 200,000,000,000 fold, the throughput has increased only 10,000 fold and the latency only 8 fold. 
+While the capacity has increased 200,000,000,000 fold, the throughput has increased only 10,000 fold and the latency only 8 fold.
 
 \subsection{Can you name a few big players in the industry that accumulate and analyze massive amounts of data?}
 
@@ -137,7 +137,7 @@ Google, AWS (Amazon Web Services), Microsoft Azure and many more
 
 \subsection{Do you know the difference between bit and byte?}
 
-One byte is a collection of 8 bits where a bit represents the most basic form of information storage: 1 or 0. 
+One byte is a collection of 8 bits where a bit represents the most basic form of information storage: 1 or 0.
 
 \subsection{Can you name a few concrete examples that illustrate the various orders of magnitude of amounts of data?}
 
@@ -151,7 +151,7 @@ One byte is a collection of 8 bits where a bit represents the most basic form of
 
 Write Intensive $\rightarrow$ \textbf{OLTP} (On-line Transaction Processing) is involved in the operation of a particular system. OLTP is characterized by a large number of short on-line transactions (INSERT, UPDATE, DELETE). The main emphasis for OLTP systems is put on very fast query processing, maintaining data integrity in multi-access environments and an effectiveness measured by number of transactions per second. In OLTP database there is detailed and current data, and schema used to store transactional databases is the entity model (usually 3NF). It involves queries accessing individual record like updating an email record in a database.\\\\
 
-\noindent Read Intensive $\rightarrow$ \textbf{OLAP} (On-line Analytical Processing) deals with historical data or archival data. OLAP is characterized by a relatively low volume of transactions. Queries are often very complex and involve aggregations. For OLAP systems a response time is an effectiveness measure. OLAP applications are widely used for data mining applications. In an OLAP database there is aggregated, historical data, stored in multi-dimensional schemas. Queries often access large amounts of data. 
+\noindent Read Intensive $\rightarrow$ \textbf{OLAP} (On-line Analytical Processing) deals with historical data or archival data. OLAP is characterized by a relatively low volume of transactions. Queries are often very complex and involve aggregations. For OLAP systems a response time is an effectiveness measure. OLAP applications are widely used for data mining applications. In an OLAP database there is aggregated, historical data, stored in multi-dimensional schemas. Queries often access large amounts of data.
 
 \subsection{Can you explain why normal forms are important?}
 
@@ -159,7 +159,7 @@ Normal forms are important to reduce data redundancy and improve data integrity.
 
 \subsection{Can you describe the first normal form in simple terms?}
 
-The first normal form expects the data to have a primary key ("id"), no repeating groups of entries (Not having columns such as "ChildName1" and "ChildName2") and atomicity of entries (No column such as "Children" with value e.g. "Max, Pia"). 
+The first normal form expects the data to have a primary key ("id"), no repeating groups of entries (Not having columns such as "ChildName1" and "ChildName2") and atomicity of entries (No column such as "Children" with value e.g. "Max, Pia").
 
 \subsection{Can you describe in simple terms (that is, without knowing the details of them) how higher normal forms (like Boyce-Codd) are related to joins?}
 
@@ -168,7 +168,7 @@ Higher order forms make sure that the data conforms to certain rules, thus when 
 
 \subsection{Can you explain why it is common, for large amounts of data, to drop several levels of normal form, and denormalize data instead?}
 
-Denormalization is used to increase performance and scalability for large datasets. This leads to a increase in read performance while write performance suffers. This is due to the fact that relational databases need to perform many expensive JOIN operations when data is retrieved. These operations are prohibitively costly for very large datasets. 
+Denormalization is used to increase performance and scalability for large datasets. This leads to a increase in read performance while write performance suffers. This is due to the fact that relational databases need to perform many expensive JOIN operations when data is retrieved. These operations are prohibitively costly for very large datasets.
 
 \begin{itemize}
     \item[+] Retrieving data is faster since we do fewer joins
@@ -199,8 +199,18 @@ Denormalization is used to increase performance and scalability for large datase
 
 \section{Object storage}
 \subsection{Can you describe the limitations of traditional (local) file systems?}
+
+Local file systems are limited in capacity by the hardware capacity, i.e. they cannot contain petabytes. Local filesystems can also have local hierarchical and does not allow flexible manipulation of it.
+
 \subsection{Can you explain what object storage is?}
+
+Object storage (also known as object-based storage) is a computer data storage architecture that manages data as objects, as opposed to other storage architectures like file systems which manages data as a file hierarchy, and block storage which manages data as blocks within sectors and tracks. (Wikipedia)
+
+It uses a flat, simple and global key value model and flexible metadata to enable retention of a massive amount of unstructured data.
+
 \subsection{Can you explain what the benefits of object storage are?}
+
+
 \subsection{Can you contrast or relate object storage with block storage, a file system, and the key-value model?}
 \subsection{Can you explain the three different ways, on the physical level, to deal with more data (scale up, scale out, write better code)?}
 \subsection{Can you explain why scaling out is less expensive than scaling up?}
