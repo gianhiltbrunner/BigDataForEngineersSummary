@@ -6,10 +6,12 @@
 \usepackage{geometry}
 \usepackage{xcolor}
 \usepackage{hyperref}
-\usepackage{framed}
+\usepackage{fram
+  ed}
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{booktabs}
 
 \setcounter{tocdepth}{1}
 
@@ -201,7 +203,7 @@ Functional programming is a programming paradigm where programs are constructed 
 
 \subsection{Can you explain why it matters to design query languages that are declarative and functional?}
 
-Declarative languages make sure that the we don't "reinvent the wheel" every time we create a query. Functional languages basically have similar benefits. They use functions to perform many operations such as map instead of looping over an array manually, thereby hiding away complexity and making code more readable. 
+Declarative languages make sure that the we don't "reinvent the wheel" every time we create a query. Functional languages basically have similar benefits. They use functions to perform many operations such as map instead of looping over an array manually, thereby hiding away complexity and making code more readable.
 
 \subsection{Can you describe the major relational algebra operators: select, project, group and aggregate, join, Cartesian product, union, intersection, etc?}
 
@@ -209,10 +211,10 @@ Declarative languages make sure that the we don't "reinvent the wheel" every tim
     \item \textbf{SELECT}: Operation that subsets the data set given a condition. Such as SELECT all entries from the table Person whose age is larger than 34. ($\sigma_{\text{Age}\geq34}(\text{Person})$)
     \item \textbf{PROJECT}: Operation that picks a subset of all columns and drops duplicate entries. From table Person (Name, Age, Weight) project the columns Age and Weight to a new table while removing the Name column and excluding duplicate entries. ($	{\displaystyle \Pi _{\text{Age,Weight}}({\text{Person}})}$)
     \item \textbf{GROUP}: Operation that groups rows sharing the grouping property such that the groups can be aggregated in a subsequent operation. (e.g. SUM)
-    \item \textbf{AGGREGATE}: Operation that summarizes multiple rows in a summarized form. Aggregate functions include: average, sum, median, standard deviation and many others. 
+    \item \textbf{AGGREGATE}: Operation that summarizes multiple rows in a summarized form. Aggregate functions include: average, sum, median, standard deviation and many others.
     \item \textbf{JOIN}: Operation that unites two tables by the set of tuples that match. (e.g. key) \item \textbf{CARTESIAN PRODUCT}: Operation that creates a new table based on all possible combinations.
-    \item \textbf{UNION}: Operation that combines tables from two SELECT operations. 
-    \item \textbf{INTERSECTION}: Operation that combines rows from tables that are present in both original data sets. 
+    \item \textbf{UNION}: Operation that combines tables from two SELECT operations.
+    \item \textbf{INTERSECTION}: Operation that combines rows from tables that are present in both original data sets.
 \end{itemize}
 
 \subsection{Do you know what each letter stands for in ACID and CAP?}
@@ -229,7 +231,7 @@ Declarative languages make sure that the we don't "reinvent the wheel" every tim
 \noindent\textbf{CAP}
 
 \begin{itemize}
-    \item Consistency: Every copy of a data set has to be modified upon completion of a transaction. Note that this is not the same as consistency in the ACID model. 
+    \item Consistency: Every copy of a data set has to be modified upon completion of a transaction. Note that this is not the same as consistency in the ACID model.
     \item Availability: Every request receives a (non-error) response, without the guarantee that it contains the most recent write
     \item Partition tolerance: The system continues to operate despite an arbitrary number of messages being dropped (or delayed) by the network between nodes
 \end{itemize}
@@ -273,31 +275,173 @@ It uses a flat, simple and global key value model and flexible metadata to enabl
 
 \subsection{Can you explain what the benefits of object storage are?}
 
+It enables the retention of massive, and diverse amounts of data on commodity hardware, with easy key-value pair access, and flexible metadata. Scaling out in terms of hardware with this approach allows also to have more performance for a lower price.
 
 \subsection{Can you contrast or relate object storage with block storage, a file system, and the key-value model?}
+
+See wiki entry again: object storage (also known as object-based storage) is a computer data storage architecture that manages data as objects, as opposed to other storage architectures like file systems which manages data as a file hierarchy, and block storage which manages data as blocks within sectors and tracks. (Wikipedia)
+
+\subsection{What is the CAP theorem?}
+
+In theoretical computer science, the CAP theorem, also named Brewer's theorem after computer scientist Eric Brewer, states that it is impossible for a distributed data store to simultaneously provide more than two out of the following three guarantees:
+
+\begin{itemize}
+\item Consistency: Every read receives the most recent write or an error
+\item Availability: Every request receives a (non-error) response, without the guarantee that it contains the most recent write
+\item Partition tolerance: The system continues to operate despite an arbitrary number of messages being dropped (or delayed) by the network between nodes
+\end{itemize}
+
+When a network partition failure happens should we decide to
+
+\begin{itemize}
+\item Cancel the operation and thus decrease the availability but ensure consistency
+\item Proceed with the operation and thus provide availability but risk inconsistency
+\end{itemize}
+
+The CAP theorem implies that in the presence of a network partition, one has to choose between consistency and availability. Note that consistency as defined in the CAP theorem is quite different from the consistency guaranteed in ACID database transactions.
+
 \subsection{Can you explain the three different ways, on the physical level, to deal with more data (scale up, scale out, write better code)?}
+
+\begin{itemize}
+\item Scale up - get bigger machines, price increases exponentially
+\item Scale out - get more commodity machines, price increases linearly
+\item Write better code - avoids excessive processing overhead and storage requirements, price can be substantially lower.
+\end{itemize}
+
 \subsection{Can you explain why scaling out is less expensive than scaling up?}
+
+Because commodity hardware manufacturing is streamlined its price increases linearly, whereas harder to make and hence more expensive machines which are obtained by scaling up increase the cost exponentially.
+
 \subsection{Can you explain what aspects of the design of object storage enable scaling out and why?}
+
+The architecture is simple and can easily be fragmented to be stored on commodity hardware.
+
 \subsection{Do you know what a data centre is made of (racks, server nodes, storage nodes, etc.)?}
+
+Racks: vertical stack of server nodes. Storage nodes are server nodes or VMs specialized for storage.
+
 \subsection{Do you know the difference between storage, memory, CPU and network and how the three are paramount in a cluster?}
+
+Yes.
+
 \subsection{Do you know rough, typical numbers (per-node storage capacity, memory, number of cores, etc.)?}
+
+Typical data center: 1,000-100,000 machines
+Cores: 1-100 cores per machine
+Storage: 1-20 TB local storage per server
+RAM: 16-6TB.
+Network bandwidth:1-100 Gb/s
+
 \subsection{Do you know how storage and memory technologies (HDD, SDD and RAM) compare in terms of capacity and throughput?}
+
+Capacity HDD>SDD>RAM
+Throughput HDD<SDD<RAM
+
 \subsection{Can you sketch the (key-value) data model behind object storage? Can you spot instances of the key-value model in several other technologies seen in the lecture?}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\textwidth]{img/key_value_object_storage.png}
+  \caption{Key value schema and other features of object storage}
+  \label{fig:keyvalueobjectstorage}
+\end{figure}
+
+Other instances: JSON, Azure cosmos DB key value paradigm, ...
 
 \pagebreak
 
 \subsection{Do you know the difference between data and metadata?}
+
+Metadata is data that provides information about other data. In other words, it is data about data.
+
 \subsection{Do you know the order of magnitude that can be achieved in terms of number of objects, and object size?}
+
+Object size ~5TB, 100 buckets per user by default.
+
 \subsection{Can you name a few big players for cloud-based object storage (vendors, consumers)?}
+
+Google, Microsoft, Amazon.
+
 \subsection{Can you describe the features of S3 and Azure Blob Storage on a high level? Do you know what a bucket and object are? What block blob storage, append blob storage and page blob storage are and how they work?}
+
+\begin{table}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    & S3 & Azure \\
+    \midrule
+    Object ID & Bucket + Object & Account + container + blob \\
+    Object API & Blackbox & Block Append Page \\
+    Limit & 5TB & 4.78TB (block), 195TB (append), 8TB (page)\\
+    \bottomrule
+  \end{tabular}
+  \caption{Overall comparison Azure vs S3}
+  \label{tab:azurevss3}
+\end{table}
+
+
 \subsection{Can you describe what the most important SLA (Service Level Agreement) parameters mean (e.g., latency, availability, durability) as well as their typical range?}
+
+\begin{table}
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    SLA & Outage \\
+    99\% & 4 days/year\\
+    99.9\% & 9 hours/year\\
+    99.99\% & 53 minutes/year\\
+    99.999\% & 6 minutes/year\\
+    99.9999\% & 32 seconds/year\\
+    99.99999\% & 4 seconds/year\\
+    \bottomrule
+  \end{tabular}
+  \label{tab:sla}
+  \caption{SLA}
+\end{table}
+
+Durability is loss of 1 in $10^{11}$ objects a year.
+
+Response time is <10ms in $99.9\%$.
+
 \subsection{Can you describe a typical use case for object storage?}
+
+
+\begin{itemize}
+\item Disaster recovery — Backup and Archiving.
+\item Static web site hosting and static content distribution.
+\item Document Store and file sharing.
+\item Big Data analytics.
+\end{itemize}
+
 \subsection{Can you explain what a REST API is, what resources and methods are?}
+
+
+Representational state transfer (REST) is a software architectural style that defines a set of constraints to be used for creating Web services. Web services that conform to the REST architectural style, called RESTful Web services, provide interoperability between computer systems on the Internet. RESTful Web services allow the requesting systems to access and manipulate textual representations of Web resources by using a uniform and predefined set of stateless operations. Other kinds of Web services, such as SOAP Web services, expose their own arbitrary sets of operations.
+
+REST APIs use Uniform Resource Identifiers (URIs) to address resources. REST API designers should create URIs that convey a REST API's resource model to its potential client developers. When resources are named well, an API is intuitive and easy to use.
+
+Methods include:
+\begin{itemize}
+\item HTTP GET
+\item HTTP POST
+\item HTTP PUT
+\item HTTP DELETE
+\item HTTP PATCH
+\end{itemize}
+
+Difference between PUT and PATCH: HTTP PATCH requests are to make partial update on a resource. If you see PUT requests also modify a resource entity, so to make more clear – PATCH method is the correct choice for partially updating an existing resource, and PUT should only be used if you’re replacing a resource in its entirety.
+
 \subsection{Can you explain how an object storage API looks like (get and put)?}
+
+You can address any combination of bucket and object name like so in S3:
+
+\url{http://bucket.s3.amazonaws.com/object-name}
+
 \subsection{Are you able to upload and download objects from S3 or Azure Blob Storage?}
 
-\pagebreak
+Yes. This is also what one does when hosting a static website.
 
+\pagebreak
 
 \section{Distributed file systems}
 \subsection{Can you explain the difference between block storage and object storage?}
