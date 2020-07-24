@@ -291,18 +291,100 @@ primary key  & primary key    \\ \hline
 
 \section{Distributed file systems}
 \subsection{Can you explain the difference between block storage and object storage?}
+
+\textbf{Block storage} is organised as blocks, which emulate the type of behaviour seen in traditional disk or tape storage. Blocks are identified by an arbitrary and assigned identifier by which they may be stored and retrieved, but this has no obvious meaning in terms of files or documents. A filesystem must be applied on top of the block-level storage to map 'files' onto a sequence of blocks. (Replication or backups)\\
+\textbf{Object store} or 'bucket store', such as Amazon S3 (Simple Storage Service) operate at a higher level of abstraction and are able to work with entities such as files, documents, images, videos or database records. Each object typically includes the data itself, a variable amount of metadata, and a globally unique identifier.
+
 \subsection{Can you explain the difference between the (logical) key-value model and a file system?}
+
+The key value model is typically built on top of an object storage system while a file system works on block storage. 
+
 \subsection{Can you contrast block storage and object storage in terms of maximum number of objects/files?}
+
+\begin{itemize}
+    \item \textbf{Key-Value Model}: Object Storage: Billions of sub-terabyte files. (Many small)
+    \item \textbf{File System}: Block Storage: Millions of sub-petabyte files. (Few big)
+\end{itemize}
+
 \subsection{Can you contrast block storage and object storage in terms of the maximum size of objects/files?}
-\subsection{Do you know the order of magnitude of a block size for a local filesystem and for a distributed file system? Can you explain the rationale behind them with respect to latency and throughput?}
+
+\begin{itemize}
+    \item \textbf{Key-Value Model}: A terabyte
+    \item \textbf{File System}: A petabyte
+\end{itemize}
+
+\subsection{Do you know the order of magnitude of a block size for a local file system and for a distributed file system? Can you explain the rationale behind them with respect to latency and throughput?}
+
+\begin{itemize}
+    \item \textbf{Local filesystem}: 4 kB
+    \item \textbf{Distributed file system}: 64 MB - 128 MB
+\end{itemize}
+
+On a local system we have very high trougput and low latency, but on a cluster system the machines are connected over a network infrastructure which slows down transfer speeds. In order to make transfers more efficient larger blocks are used. 
+
 \subsection{Do you know where HDFS shines and why?}
+
+\begin{itemize}
+    \item Works with varied data such as text, XML, CSV and many more. 
+    \item Works on commodity hardware - Cheap
+    \item High performance due to parallelization
+    \item Fault-tolerant
+    \item Scalable
+\end{itemize}
+
 \subsection{Do you know that HDFS files are updated by appending atomically and why?}
+
+HDFS will always append to the last block and only one singe write operation is allowed at one time. Thus guaranteeing that there are no issues with concurrency.
+
 \subsection{Do you know how HDFS performs in terms of throughput and latency?}
+
+{\color{red} HDFS is optimized to access batches of data set quicker (high throughput), rather then particular records in that data set (low latency).}
+
 \subsection{Do you know the main benefits of HDFS (commodity hardware, etc.)?}
+
+See "Do you know where HDFS shines and why?".
+
 \subsection{Can you contrast master-slave architectures to peer-to-peer architectures?}
+
+n the master-slave model, one node is in charge (master). When there’s no single node with a special role in taking charge, you have a peer-to-peer distribution model.
+
 \subsection{Can you explain the HDFS architecture, what a namenode is and what a datanode is, how blocks are replicated?}
+
+HDFS works in a master-slave configuration. There is a master called the "Namenode" and multiple slaves called "Datanodes".
+
+\begin{itemize}
+    \item \textbf{Namenode}: Manages the file namespace, acess control file to block mapping and keeps track of the block locations. 
+    \item \textbf{Datanode}: System that stores blocks on the local disk. 
+    \item \textbf{Replication}: Blocks are replicated on multiple Datanodes for fault tolerance. 
+\end{itemize}
+
 \subsection{Can you sketch how the various components communicate with each other (client, namenode, datanode)?}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/hdfsoverview.png}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Client Protocol}: Manages metadata operations, DataNode locations and block IDs. 
+    \item \textbf{DataNode Protocol}: Block operations such as replication managment and registration of the data node, heartbeat pings, block reports and block recieved confirmations. The DataNode always initiates the connection. 
+    \item \textbf{Data Transfer Protocol}: Data blocks are transferred from a DataNode to a client or back. The datanode then initiates replication pipelining. 
+\end{itemize}
+
+{\color{red} Add precise data read and write protocol?}
+
 \subsection{Can you point to the single points of failure of HDFS and explain how they can be addressed?}
+
+The NameNode is a single point of failure. 
+
+We resolve this using: 
+
+\begin{itemize}
+    \item \textbf{Persistance}: We store the inital namespace file and append an edit log with the changes that have been made. 
+    \item \textbf{Backup}: We back this file up. 
+\end{itemize}
+
+
 \subsection{Can you explain how the namenode stores the file system namespace, in memory and on disk? In particular, can you explain how the namespace file and the edit log work together at startup time and how they get modified once the system is up and running?}
 \subsection{Can you explain what a standby namenode is, what it is and what it is not?}
 \subsection{Are you able to use the HDFS shell commands (creating directories, reading, uploading and downloading files, etc.)?}
