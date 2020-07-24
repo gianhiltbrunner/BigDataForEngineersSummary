@@ -19,6 +19,8 @@
 
 \usepackage[sfdefault]{FiraSans}
 
+\setcounter{tocdepth}{1}
+
 \newminted[xml]{xml}{
     fontfamily = tt,
     fontsize = \normalsize,
@@ -617,7 +619,7 @@ Shown in Listing~\ref{lst:test}.
 
 Try with Listings~\ref{lst:test} and ~\ref{lst:test2}.
 
-\subsection{What is the difference between validation and well-formedness}
+\subsection{What is the difference between validation and well-formedness}\label{diffwellformedvalidity}
 
 validation comes after well-formedness, i.e. a well formed string is validated against a schema, which is a well-formed JSON string. Example of a schema is shown in:
 
@@ -714,22 +716,139 @@ validation comes after well-formedness, i.e. a well formed string is validated a
 
 \section{Data models}
 \subsection{Can you explain the difference between syntax and a data model?}
+
+The data model is the manifestation of the data from a logical standpoint, whereas syntax is the manifestation of the data from a physical standpoint. E.g. a JSON string could potentially be modelled in approximately the same way in XML, only the syntax will obviously differ.
+
+One such difference is that the labels of nodes are on edges for JSON, whereas they are on te nodes themselves in XML.
+
 \subsection{Can you explain why and how trees can be used to model data that is denormalized(i.e., not in first normal form)?}
+
+Why? Trees can represent nested structure of data, thereby avoiding duplicates. How? JSON and XML contain data types which can be recursively defined to enable the representation of nested structure. a valid JSON string can be the value of a key in another JSON string.
+
 \subsection{Can you relate syntaxes to data models (e.g., CSV to tables, XML/JSON to trees, ...)?}
-\subsection{Can you explain why trees modeling XML (infoset) have labels on the nodes, whiletrees modeling JSON have labels on edges?}
-\subsection{Can you name a few data models for XML (Infoset, PSVI, XDM)?}
-\subsection{Are you able, given an XML document, to sketch a tree representing that data (witha document node, elements, attributes, text, ...)?}
-\subsection{Do you know the different between an atomic type/value, and a structuredtype/value (regardless of the exact data model)?}
+
+Answer is in the question.
+
+\subsection{Can you explain why trees modeling XML (infoset) have labels on the nodes, while trees modeling JSON have labels on edges?}
+
+Because they are element names and keys, respectively.
+
+\subsection{Can you name a few data models for XML?}
+
+(Infoset, PSVI, XDM)
+
+\subsection{Are you able, given an XML document, to sketch a tree representing that data (with a document node, elements, attributes, text, ...)?}
+
+See Figure~\ref{fig:treefromdoc}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.8\textwidth]{img/treefromdoc.png}
+  \caption{Tree from document.}
+  \label{fig:treefromdoc}
+\end{figure}
+
+\subsection{Do you know the different between an atomic type/value, and a structured type/value (regardless of the exact data model)?}
+
+Atomic: cannot be divided into other atomic types, structured type can.
+
 \subsection{Can you name a few atomic types found across a broad number of data models?}
+
+Strings, numbers, booleans, dates and times, tieme intervals, binaries, null.
+
 \subsection{Do you know the difference between the lexical space and the value space of anatomic type?}
+
+Value space is the range of values for a given type, while lexical space is the range of representations.
+
 \subsection{Can you tell the difference between structured types based on lists (e.g., JSON array) and maps (e.g., JSON object)?}
+
+Maps: key value model, whereas lists don't have such a model. Difference is also in syntax: [] vs. \{\} for arrays and objects, respectively.
+
 \subsection{Can you give examples of type cardinalities, and their associated symbols?}
-\subsection{Can you explain the difference between well-formedness and validity? Do you knowwhat extra information you need to assess validity?}
+
+See table~\ref{tab:card}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    How many? & Common sign & Common adjective\\
+    \midrule
+    One &  & required\\
+    Zero or more & / & repeated\\
+    Zero or one & ? & optional\\
+    One or more & + & \\
+    \bottomrule
+  \end{tabular}
+  \caption{Cardinality}
+  \label{tab:card}
+\end{table}
+
+\subsection{Can you explain the difference between well-formedness and validity? Do you know what extra information you need to assess validity?}
+
+See section~\ref{diffwellformedvalidity}.
+
+
 \subsection{Are you able to design simple XML Schemas to validate XML? Can you restrict simpletypes to allow specific values or value fulfilling specific criteria (length, pattern...)? Can you explain how to declare elements with simple types? Can you explain how to declare elements with complex types and various content models (empty, simplecontent, complex content, mixed content)?}
+
+Example XML schema shown in listing~\ref{lst:xmlschema}.
+
+
+\begin{center}
+\begin{listing}[!ht]
+  \begin{xml}
+  <?xml version="1.0" encoding="UTF-8" ?>
+  <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="shiporder">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="orderperson" type="xs:string"/>
+          <xs:element name="shipto">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="address" type="xs:string"/>
+                <xs:element name="city" type="xs:string"/>
+                <xs:element name="country" type="xs:string"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element maxOccurs="unbounded" name="item">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="title" type="xs:string"/>
+                <xs:element minOccurs="0" name="note" type="xs:string"/>
+                <xs:element name="quantity" type="xs:positiveInteger"/>
+                <xs:element name="price" type="xs:decimal"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="orderid" type="xs:string" use="required"/>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  \end{xml}
+  \caption[Test]{XML Schema example from \href{https://www.w3schools.com/xml/schema_example.asp}{here}}
+  \label{lst:xmlschema}
+\end{listing}
+\end{center}
+
 \subsection{Can you tell, given an XML Schema, whether an XML document is valid against it,with software (oXygen) but also with your own eyes?}
+
+Go through a couple of examples.
+
 \subsection{Are you able to design simple JSON Schemas to validate JSON?}
-\subsection{Can you name (without details) further data modeling technologies for tree-likedata? (Avro, protocol buffers, ...)}
-\subsection{Do you understand that a table in first normal form can be seen as a homogeneouscollection of flat trees (one per row and all with the same attributes)?}
+
+See Listing~\ref{lst:test3}.
+
+\subsection{Can you name (without details) further data modeling technologies for tree-likedata?}
+
+Avro, protocol buffers, ...
+
+\subsection{Do you understand that a table in first normal form can be seen as a homogeneous collection of flat trees (one per row and all with the same attributes)?}
+
+
 
 \pagebreak
 
