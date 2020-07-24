@@ -466,7 +466,7 @@ Yes. This is also what one does when hosting a static website.
 
 \subsection{Can you explain the difference between the (logical) key-value model and a file system?}
 
-The key value model is typically built on top of an object storage system while a file system works on block storage. 
+The key value model is typically built on top of an object storage system while a file system works on block storage.
 
 \subsection{Can you contrast block storage and object storage in terms of maximum number of objects/files?}
 
@@ -489,12 +489,12 @@ The key value model is typically built on top of an object storage system while 
     \item \textbf{Distributed file system}: 64 MB - 128 MB
 \end{itemize}
 
-On a local system we have very high trougput and low latency, but on a cluster system the machines are connected over a network infrastructure which slows down transfer speeds. In order to make transfers more efficient larger blocks are used. 
+On a local system we have very high trougput and low latency, but on a cluster system the machines are connected over a network infrastructure which slows down transfer speeds. In order to make transfers more efficient larger blocks are used.
 
 \subsection{Do you know where HDFS shines and why?}
 
 \begin{itemize}
-    \item Works with varied data such as text, XML, CSV and many more. 
+    \item Works with varied data such as text, XML, CSV and many more.
     \item Works on commodity hardware - Cheap
     \item High performance due to parallelization
     \item Fault-tolerant
@@ -522,9 +522,9 @@ n the master-slave model, one node is in charge (master). When there’s no sing
 HDFS works in a master-slave configuration. There is a master called the "Namenode" and multiple slaves called "Datanodes".
 
 \begin{itemize}
-    \item \textbf{Namenode}: Manages the file namespace, acess control file to block mapping and keeps track of the block locations. 
-    \item \textbf{Datanode}: System that stores blocks on the local disk. 
-    \item \textbf{Replication}: Blocks are replicated on multiple Datanodes for fault tolerance. 
+    \item \textbf{Namenode}: Manages the file namespace, acess control file to block mapping and keeps track of the block locations.
+    \item \textbf{Datanode}: System that stores blocks on the local disk.
+    \item \textbf{Replication}: Blocks are replicated on multiple Datanodes for fault tolerance.
 \end{itemize}
 
 \subsection{Can you sketch how the various components communicate with each other (client, namenode, datanode)?}
@@ -535,22 +535,22 @@ HDFS works in a master-slave configuration. There is a master called the "Nameno
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Client Protocol}: Manages metadata operations, DataNode locations and block IDs. 
-    \item \textbf{DataNode Protocol}: Block operations such as replication managment and registration of the data node, heartbeat pings, block reports and block recieved confirmations. The DataNode always initiates the connection. 
-    \item \textbf{Data Transfer Protocol}: Data blocks are transferred from a DataNode to a client or back. The datanode then initiates replication pipelining. 
+    \item \textbf{Client Protocol}: Manages metadata operations, DataNode locations and block IDs.
+    \item \textbf{DataNode Protocol}: Block operations such as replication managment and registration of the data node, heartbeat pings, block reports and block recieved confirmations. The DataNode always initiates the connection.
+    \item \textbf{Data Transfer Protocol}: Data blocks are transferred from a DataNode to a client or back. The datanode then initiates replication pipelining.
 \end{itemize}
 
 {\color{red} Add precise data read and write protocol?}
 
 \subsection{Can you point to the single points of failure of HDFS and explain how they can be addressed?}
 
-The NameNode is a single point of failure. 
+The NameNode is a single point of failure.
 
-We resolve this using: 
+We resolve this using:
 
 \begin{itemize}
-    \item \textbf{Persistance}: We store the inital namespace file and append an edit log with the changes that have been made. 
-    \item \textbf{Backup}: We back this file up. 
+    \item \textbf{Persistance}: We store the inital namespace file and append an edit log with the changes that have been made.
+    \item \textbf{Backup}: We back this file up.
 \end{itemize}
 
 
@@ -764,7 +764,7 @@ validation comes after well-formedness, i.e. a well formed string is validated a
    \end{json}
     \caption[Test]{Example of schema (done to be compatible for \url{https://python-jsonschema.readthedocs.io/en/stable/})}
  \label{lst:test3}
- \end{listing}
+s \end{listing}
 \end{center}
 
 
@@ -1045,14 +1045,14 @@ MapReduce in hadoop-2.x maintains API compatibility with previous stable release
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{img/capacity_scheduling.png.png}
+  \includegraphics[width=0.5\textwidth]{img/capacity_scheduling.png}
   \caption{Capacity scheduling increases the amount of queues but does not allow optimal ressource allocation.}
   \label{fig:capsched}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{img/capacity_scheduling.png.png}
+  \includegraphics[width=0.5\textwidth]{img/fair.png}
   \caption{FAIR scheduling, most optimal scheduling of ressources.}
   \label{fig:fairsched}
 \end{figure}
