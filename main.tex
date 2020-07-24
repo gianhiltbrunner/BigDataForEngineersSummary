@@ -1,17 +1,21 @@
+%%% Local Variables:
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:
 \documentclass{article}
 
 \usepackage{multicol}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
+\usepackage{minted}
 \usepackage{xcolor}
 \usepackage{hyperref}
-\usepackage{fram
-  ed}
+\usepackage{framed}
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{booktabs}
+
 
 \setcounter{tocdepth}{1}
 
@@ -20,6 +24,21 @@
 \date{June 2020}
 
 \usepackage[sfdefault]{FiraSans}
+
+\newminted[xml]{xml}{
+    fontfamily = tt,
+    fontsize = \normalize,
+    gobble = 1,
+    samepage
+}
+
+\newminted[json]{json}{
+    fontfamily = tt,
+    fontsize = \normalize,
+    gobble = 1,
+    samepage
+}
+
 
 \begin{document}
 %\begin{multicols}{2}
@@ -90,15 +109,15 @@ Underlying Questions
 \begin{table}[H]
 \begin{tabular}{|l|l|}
 \hline
-\textbf{Prefix} & \textbf{Digits}                              \\ \hline
-kilo (k)        & 1,000 (3 zeros)                              \\ \hline
-Mega (M)        & 1,000,000 (6 zeros)                          \\ \hline
-Giga (G)        & 1,000,000,000 (9 zeros)                      \\ \hline
-Tera (T)        & 1,000,000,000,000 (12 zeros)                 \\ \hline
-Peta (P)        & 1,000,000,000,000,000 (15 zeros)             \\ \hline
-Exa (E)         & 1,000,000,000,000,000,000 (18 zeros)         \\ \hline
-Zetta (Z)       & 1,000,000,000,000,000,000,000 (21 zeros)     \\ \hline
-Yotta (Y)       & 1,000,000,000,000,000,000,000,000 (24 zeros) \\ \hline
+\textbf{Prefix} & \textbf{Digits} \\ \hline
+kilo (k) & 1,000 (3 zeros) \\ \hline
+Mega (M) & 1,000,000 (6 zeros) \\ \hline
+Giga (G) & 1,000,000,000 (9 zeros) \\ \hline
+Tera (T) & 1,000,000,000,000 (12 zeros) \\ \hline
+Peta (P) & 1,000,000,000,000,000 (15 zeros) \\ \hline
+Exa (E) & 1,000,000,000,000,000,000 (18 zeros) \\ \hline
+Zetta (Z) & 1,000,000,000,000,000,000,000 (21 zeros) \\ \hline
+Yotta (Y) & 1,000,000,000,000,000,000,000,000 (24 zeros) \\ \hline
 \end{tabular}
 \end{table}
 
@@ -209,7 +228,7 @@ Declarative languages make sure that the we don't "reinvent the wheel" every tim
 
 \begin{itemize}
     \item \textbf{SELECT}: Operation that subsets the data set given a condition. Such as SELECT all entries from the table Person whose age is larger than 34. ($\sigma_{\text{Age}\geq34}(\text{Person})$)
-    \item \textbf{PROJECT}: Operation that picks a subset of all columns and drops duplicate entries. From table Person (Name, Age, Weight) project the columns Age and Weight to a new table while removing the Name column and excluding duplicate entries. ($	{\displaystyle \Pi _{\text{Age,Weight}}({\text{Person}})}$)
+    \item \textbf{PROJECT}: Operation that picks a subset of all columns and drops duplicate entries. From table Person (Name, Age, Weight) project the columns Age and Weight to a new table while removing the Name column and excluding duplicate entries. ($ {\displaystyle \Pi _{\text{Age,Weight}}({\text{Person}})}$)
     \item \textbf{GROUP}: Operation that groups rows sharing the grouping property such that the groups can be aggregated in a subsequent operation. (e.g. SUM)
     \item \textbf{AGGREGATE}: Operation that summarizes multiple rows in a summarized form. Aggregate functions include: average, sum, median, standard deviation and many others.
     \item \textbf{JOIN}: Operation that unites two tables by the set of tuples that match. (e.g. key) \item \textbf{CARTESIAN PRODUCT}: Operation that creates a new table based on all possible combinations.
@@ -247,12 +266,12 @@ Declarative languages make sure that the we don't "reinvent the wheel" every tim
 \begin{tabular}{|l|l|}
 \hline
 \textbf{SQL} & \textbf{NoSQL} \\ \hline
-database     & database       \\ \hline
-table        & collection     \\ \hline
-row          & document       \\ \hline
-column       & field          \\ \hline
-index        & index          \\ \hline
-primary key  & primary key    \\ \hline
+database & database \\ \hline
+table & collection \\ \hline
+row & document \\ \hline
+column & field \\ \hline
+index & index \\ \hline
+primary key & primary key \\ \hline
 \end{tabular}
 \end{table}
 
@@ -465,21 +484,215 @@ Yes. This is also what one does when hosting a static website.
 
 \section{Syntax}
 \subsection{Can you describe why syntax is relevant to data management and to Big Data, for all data shapes?}
+
+Syntax is crucial for efficient data management, and should be adapted to the data type is represents, e.g. if the data is in first normal form (i.e. there is atomic integrity) then csv is good, but if there is nestedness you will probably have data duplication, in this case JSON is more appropriate and avoids redundancy.
+
+\subsection{What are the system demands for normalized vs. denormalized data?}
+
+Normalized data is write intensive, e.g. if there is nestedness. Denormalized data is read intensive.
+
+\subsection{What do normalized vs. denormalized data avoid?}
+
+Normalized: avoid update anomalies
+Denormalized: avoids joins.
+
 \subsection{Can you give examples of syntax for trees? For tables? (The two data shapes extensively covered in the lecture)}
+
+CSV for tables and JSON for trees.
+
+
 \subsection{Can you explain what well-formedness is with respect to syntax?}
+
+well-formedness in the case of JSON for instance is when all the rules of the JSON syntax are respected by a JSON string.
+
 \subsection{Can you list the XML basic building blocks (we covered document, element, attribute, text) and do you know what they look like?}
+
+They look like this:
+\begin{center}
+\begin{listing}[!ht]
+  \begin{xml}
+    <element attribute="value">
+    Some text
+    </element>
+  \end{xml}
+  \caption[Test]{XML building blocks}
+  \label{lst:test}
+\end{listing}
+\end{center}
+
+
 \subsection{Can you tell whether a given XML document is well-formed, with a software (oXygen) as well as with your own eyes?}
+
+Well formed json string
+
+\begin{center}
+\begin{listing}[!ht]
+  \begin{json}
+    {
+      "tissue_directories": [
+            "gtex/brain/brain_cerebellar_hemisphere.tpm.csv"
+      ],
+      "tissue_names": [
+            "Brain Cerebellar Hemisphere"
+      ],
+      "sample_strategy": [
+            "mean",
+            "mean"
+      ],
+      "expression_selection": [
+            [
+                  "smaller",
+                  100
+            ],
+            [
+                  "smaller",
+                  100
+            ]
+      ]
+    }
+  \end{json}
+  \caption[Test]{JSON well formed}
+  \label{lst:test}
+\end{listing}
+\end{center}
+
+\begin{center}
+\begin{listing}[!ht]
+  \begin{json}
+
+      "tissue_directories": [
+            "gtex/brain/brain_cerebellar_hemisphere.tpm.csv"
+      ],
+      "tissue_names" [
+            "Brain Cerebellar Hemisphere"
+      ],
+      sample_strategy: [
+            "mean"
+            "mean"
+      ],
+      "expression_selection": [
+            [
+                  "smaller",
+                  100
+            ],
+            [
+                  smaller,
+                  100
+            ]
+      ]
+
+  \end{json}
+  \caption[Test]{JSON not well formed}
+  \label{lst:test2}
+\end{listing}
+\end{center}
+
+Another example of not well-formed JSON.
+
 \subsection{Do you know the five fundamental pre-defined entities (used to escape characters: $\&$ < > ' ") and their syntax?}
+
+See Table~\ref{tab:predefinedentitites}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{lllll}
+    \toprule
+    Name & Character & Unicode code point (decimal) & Standard & Name\\
+    \midrule
+    quot & " & U+0022 (34) & XML 1.0 & quotation mark\\
+    amp  & \& & U+0026 (38) & XML 1.0 & ampersand\\
+    apos & ' & U+0027 (39) & XML 1.0 & apostrophe \\
+    lt & < & U+003C (60) & XML 1.0 & less-than sign\\
+    gt & > & U+003E (62) & XML 1.0 & greater-than sign\\
+    \bottomrule
+  \end{tabular}
+  \caption{Predefined entities. }
+  \label{tab:predefinedentitites}
+\end{table}
+
 \subsection{Do you know when some characters must be escaped (e.g., < in text)?}
+
+Characters must be escaped in text. In JSON, done with ``\verb|\|". In XML, follow the conventions shown in Table~\ref{tab:predefinedentitites}.
+
 \subsection{Can you list the JSON basic building blocks (object, array, string, number, boolean,null) and do you know what they look like?}
-\subsection{Can you tell whether a given JSON document is well-formed, also with your owneyes?}
+
+Shown in Listing~\ref{lst:test}.
+
+\subsection{Can you tell whether a given JSON document is well-formed, also with your own eyes?}
+
+Try with Listings~\ref{lst:test} and ~\ref{lst:test2}.
+
+\subsection{What is the difference between validation and well-formedness}
+
+validation comes after well-formedness, i.e. a well formed string is validated against a schema, which is a well-formed JSON string. Example of a schema is shown in:
+
+\begin{center}
+ \begin{listing}
+   \begin{json}
+     {"type": "object",
+    "properties": {
+        "tissue_directories": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "tissue_names": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "sample_strategy": {
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "enum": ["mean", "max", "min", "median"
+                        ]
+                    },
+                    {
+                        "type": "number", "minimum": 0, "maximum": 1
+                    }
+                ]
+            }
+        },
+        "expression_selection": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": [
+                    {
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "enum": ["greater", "smaller"
+                                ]
+                            },
+                            {
+                                "type": "number", "minimum": 0
+                            }
+                        ]
+                    },
+                    {
+                        "type": "number","minimum": 0
+                    }
+                ]}}}
+   \end{json}
+    \caption[Test]{Example of schema (done to be compatible for \url{https://python-jsonschema.readthedocs.io/en/stable/})}
+ \label{lst:test3}
+ \end{listing}
+\end{center}
+
+
 
 \pagebreak
 
 \section{Wide column stores}
 \subsection{Can you explain the limitations of the traditional relational model?}
-\subsection{Can you explain the differences and similarities between a wide column store andthe traditional relational model?}
-\subsection{Can you explain why wide column stores are called wide column stores, in particularon the storage level?}
+\subsection{Can you explain the differences and similarities between a wide column store and the traditional relational model?}
+\subsection{Can you explain why wide column stores are called wide column stores, in particular on the storage level?}
 \subsection{Do you know and can you contrast the two ways data can be distributed(partitioning, replicating)?}
 \subsection{Can you explain the data model behind wide column stores, in particular, rows,columns, column families and cells?}
 \subsection{Can you explain the motivation behind data getting denormalized into more columnfamilies?}
@@ -487,13 +700,13 @@ Yes. This is also what one does when hosting a static website.
 \subsection{Can you name a few big players, in particular the one behind the initial founding paper?}
 \subsection{Can you explain why HBase is based on HDFS, yet low-latency?}
 \subsection{Can you explain what regions are for wide column stores?}
-\subsection{Do you know how to identify a region based on the content of the wide columnstore?}
+\subsection{Do you know how to identify a region based on the content of the wide column store?}
 \subsection{Do you know the four basic kinds of (low-level) queries in HBase?}
-\subsection{Can you describe the physical architecture of a wide column store like HBase, andcompare it with that of a distributed file system like HDFS?}
-\subsection{Do you know the physical layers of HBase (table, region, Store, Memstore, HFile,HBase block, KeyValue)?}
+\subsection{Can you describe the physical architecture of a wide column store like HBase, and compare it with that of a distributed file system like HDFS?}
+\subsection{Do you know the physical layers of HBase (table, region, Store, Memstore, HFile,HBase block, Key Value)?}
 \subsection{Do you know the difference between an HDFS block and an HBase block as well astheir typical sizes?}
 \subsection{Can you explain how new cells are written to HBase via the cell store?}
-\subsection{Can you explain how cells are read from HBase via both the stored HFiles and theMemstore?}
+\subsection{Can you explain how cells are read from HBase via both the stored HFiles and the Memstore?}
 \subsection{Can you explain what compaction and flushing is?}
 \subsection{Can you sketch the contents of an HFile and know what it corresponds to in anHBase table?}
 \subsection{Can you explain why it is crucial not to have too long column family names?}
