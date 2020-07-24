@@ -13,9 +13,6 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 
-
-\setcounter{tocdepth}{1}
-
 \title{Big Data For Engineers}
 \author{Philip J. Hartout, Gian S. Hiltbrunner}
 \date{June 2020}
@@ -24,21 +21,21 @@
 
 \newminted[xml]{xml}{
     fontfamily = tt,
-    fontsize = \normalize,
+    fontsize = \normalsize,
     gobble = 1,
     samepage
 }
 
 \newminted[json]{json}{
     fontfamily = tt,
-    fontsize = \normalize,
+    fontsize = \normalsize,
     gobble = 1,
     samepage
 }
 
 
 \begin{document}
-%\begin{multicols}{2}
+% \begin{multicols}{2}
 
 \maketitle
 
@@ -609,7 +606,8 @@ See Table~\ref{tab:predefinedentitites}.
 
 \subsection{Do you know when some characters must be escaped (e.g., < in text)?}
 
-Characters must be escaped in text. In JSON, done with ``\verb|\|". In XML, follow the conventions shown in Table~\ref{tab:predefinedentitites}.
+Characters must be escaped in text. In JSON, done with ``\textbackslash". In XML, follow the conve
+ntions shown in Table~\ref{tab:predefinedentitites}.
 
 \subsection{Can you list the JSON basic building blocks (object, array, string, number, boolean,null) and do you know what they look like?}
 
@@ -675,7 +673,10 @@ validation comes after well-formedness, i.e. a well formed string is validated a
                     {
                         "type": "number","minimum": 0
                     }
-                ]}}}
+                    ]
+                  }
+                }
+              }
    \end{json}
     \caption[Test]{Example of schema (done to be compatible for \url{https://python-jsonschema.readthedocs.io/en/stable/})}
  \label{lst:test3}
@@ -811,3 +812,6 @@ validation comes after well-formedness, i.e. a well formed string is validated a
 
 %\end{multicols}
 \end{document}
+% Local Variables:
+% TeX-command-extra-options: "-shell-escape"
+% End:
