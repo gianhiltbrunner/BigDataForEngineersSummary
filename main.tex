@@ -854,7 +854,17 @@ Avro, protocol buffers, ...
 
 \section{Massive parallel processing (MapReduce)}
 \subsection{Can you explain the patterns that appear in large-scale data processing: map, shuffle?}
-\subsection{Can you explain how the mastery of these patterns can bring significant improvements in performance?}
+
+Map: each worker node applies the map function to the local data, and writes the output to a temporary storage. A master node ensures that only one copy of the redundant input data is processed.
+
+Shuffle: worker nodes redistribute data based on the output keys (produced by the map function), such that all data belonging to one key is located on the same worker node.
+
+Reduce: worker nodes now process each group of output data, per key, in parallel.
+
+\subsection{Can you explain how the mastery of these patterns can bring signficant improvements in performance?}
+
+
+
 \subsection{Can you explain the MapReduce model, also in terms of the patterns depicted above (map, shuffle, reduce)?}
 \subsection{Can you describe the physical architecture of MapReduce (map tasks, reduce tasks as well as data flow)? Can you explain version 1 of the architecture (JobTracker, TaskTrackers) and its limits?}
 \subsection{Can you outline what a map function looks like, and what a reduce function looks like?}
@@ -870,14 +880,100 @@ Avro, protocol buffers, ...
 \pagebreak
 
 \section{Resource Management}
+
+
+
 \subsection{Can you explain how YARN works, and how it can be used to improve MapReduce, and to support other technologies like Spark?}
+
+The responsibilities of the jobtracker in mapreduce are manifold:
+
+\begin{enumerate}
+\item Resource management
+\item Scheduling
+\item Monitoring
+\item Job lifecycle
+\item Fault-tolerance
+\end{enumerate}
+
+
+YARN solves multiple issues that arise with vanilla mapreduce and DAG processing:
+\begin{enumerate}
+\item Scalability
+\item The jobtracker bottleneck
+\item the fact that the jobtracker has to take care of both scheduling and monitoring.
+\item The fixed size and static allocation of jobs.
+\item Fungibility, i.e. the ability of a good or asset to be interchanged with other individual goods or assets of the same type.
+\end{enumerate}
+
+YARN divides scheduling from monitoring.
+
 \subsection{Can you describe the YARN components?}
+
+\begin{itemize}
+\item Resource Manager: does not monitor tasks or restart upon failure.
+\item Node Manager
+\item Container
+\end{itemize}
+
 \subsection{Do you know what a ResourceManager does?}
+Pure scheduling
 \subsection{Do you know what a NodeManager does?}
+Conceptually, the NodeManager is more of a generic and efficient version of TaskTracker (of Hadoop1 architecture) which is more flexible than TaskTracker. In contrast to fixed number of slots for map and reduce tasks in MRV1, the NodeManager of MRV2 has a number of dynamically created resource containers. There is no hard code split available into Map and Reduce slots as in MRV1. The container refers to a collection of resources such as memory, CPU, disk and network IO. The number of containers on a node is the product of configuration parameter and the total amount of node resources. Node manager is the slave daemon of Yarn.
+
 \subsection{Do you know what and where a Container is?}
+As previously described, ResourceManager (RM) is the master that arbitrates all the available cluster resources and thus helps manage the distributed applications running on the YARN system. It works together with the per-node NodeManagers (NMs) and the per-application ApplicationMasters (AMs).
+
 \subsection{Do you know what an ApplicationMaster is and does?}
-\subsection{Can you list the main resources that are managed in a cluster? (Disk storage,memory, CPU, network I/O).}
+ApplicationMasters are responsible for negotiating resources with the ResourceManager and for working with the NodeManagers to start the containers.
+
+\subsection{Can you list the main resources that are managed in a cluster? .}
+Disk storage,memory, CPU, network I/O: all are dynamically allocated for each application.
+
 \subsection{Can you explain, in simpler words, what the added value of YARN is? Can you explainwhat it is an improvement over the first version of MapReduce, which was taking care of resource management on its own, and had issues with this?}
+
+Essentially, YARN allows for a more flexible and dynamic allocation of tasks on a cluster, which also allows to prioritize certain tasks and users while wasting a minimum of space.
+
+\subsection{From HADOOP website}
+
+The fundamental idea of YARN is to split up the functionalities of resource management and job scheduling/monitoring into separate daemons. The idea is to have a global ResourceManager (RM) and per-application ApplicationMaster (AM). An application is either a single job or a DAG of jobs.
+
+The ResourceManager and the NodeManager form the data-computation framework. The ResourceManager is the ultimate authority that arbitrates resources among all the applications in the system. The NodeManager is the per-machine framework agent who is responsible for containers, monitoring their resource usage (cpu, memory, disk, network) and reporting the same to the ResourceManager/Scheduler.
+
+The per-application ApplicationMaster is, in effect, a framework specific library and is tasked with negotiating resources from the ResourceManager and working with the NodeManager(s) to execute and monitor the tasks.
+
+The ResourceManager has two main components: Scheduler and ApplicationsManager.
+
+The Scheduler is responsible for allocating resources to the various running applications subject to familiar constraints of capacities, queues etc. The Scheduler is pure scheduler in the sense that it performs no monitoring or tracking of status for the application. Also, it offers no guarantees about restarting failed tasks either due to application failure or hardware failures. The Scheduler performs its scheduling function based the resource requirements of the applications; it does so based on the abstract notion of a resource Container which incorporates elements such as memory, cpu, disk, network etc.
+
+The Scheduler has a pluggable policy which is responsible for partitioning the cluster resources among the various queues, applications etc. The current schedulers such as the CapacityScheduler and the FairScheduler would be some examples of plug-ins.
+
+The ApplicationsManager is responsible for accepting job-submissions, negotiating the first container for executing the application specific ApplicationMaster and provides the service for restarting the ApplicationMaster container on failure. The per-application ApplicationMaster has the responsibility of negotiating appropriate resource containers from the Scheduler, tracking their status and monitoring for progress.
+
+MapReduce in hadoop-2.x maintains API compatibility with previous stable release (hadoop-1.x). This means that all MapReduce jobs should still run unchanged on top of YARN with just a recompile.
+
+
+\subsection{What are the pitfalls and advantages of various types of scheduling?}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{img/fifo.png}
+  \caption{FIFO: least efficient, whole cluster devoted to task.}
+  \label{fig:fifo}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{img/capacity_scheduling.png.png}
+  \caption{Capacity scheduling increases the amount of queues but does not allow optimal ressource allocation.}
+  \label{fig:capsched}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{img/capacity_scheduling.png.png}
+  \caption{FAIR scheduling, most optimal scheduling of ressources.}
+  \label{fig:fairsched}
+\end{figure}
 
 \pagebreak
 
@@ -888,20 +984,23 @@ Avro, protocol buffers, ...
 \subsection{Do you know the main actions and transformations available in Spark?}
 \subsection{Are you able to classify transformations and actions in various buckets (those thatwork on any value, those that work on key-value pairs, unary binary transformations, ...)?}
 \subsection{Can you describe how transformations run physically (tasks, stages...)?}
-\subsection{Can you explain when and how a series of transformations can be optimized bykeeping the same set of machines with no network communication between the transformations?}
-\subsection{Can you explain what a stage is? Can you relate it to transformations? To tasks? ToJobs?}
+\subsection{Can you explain when and how a series of transformations can be optimized by keeping the same set of machines with no network communication between the transformations?}
+\subsection{Can you explain what a stage is? Can you relate it to transformations? To tasks? To Jobs?}
 \subsection{Can you tell why and when shuffling is needed? In other words, can say whether atransformation has a narrow dependency or a wide dependency?}
 \subsection{Can you easily draw a directly acyclic graph for a Spark job, and mark the stages?}
-\subsection{Do you understand why keeping an RDD persisted can be useful and improveperformance?}
+\subsection{Do you understand why keeping an RDD persisted can be useful and improve performance?}
 \subsection{Can you explain how controlling the way data is partitioned can make executionfaster because we can influence stages?}
 \subsection{Can you explain what a DataFrame is and what its benefits are?}
 \subsection{Can you describe the limitations of DataFrames?}
-\subsection{Can you write queries on DataFrames, both in Spark SQL or using DataFramestransformations?}
+\subsection{Can you write queries on DataFrames, both in Spark SQL or using DataFrames transformations?}
 
 \pagebreak
 
 \section{Document stores}
 \subsection{Do you understand how collections in documents store generalize the concept of a relational table?}
+
+
+
 \subsection{Can you explain what documents store can do that relational databases cannot (e.g., heterogeneous collections, schema-less collections, data denormalized into trees...)?}
 \subsection{Do you know how to issue MongoDB queries on a low level? Do you know the parameters of the find() function? (query, then projection, then sorting)?}
 \subsection{Can you explain how, in a document store, the documents can be sharded and replicated?}
