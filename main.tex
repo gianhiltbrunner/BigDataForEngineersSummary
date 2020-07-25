@@ -945,8 +945,6 @@ Reduce: worker nodes now process each group of output data, per key, in parallel
 
 \subsection{Can you explain how the mastery of these patterns can bring signficant improvements in performance?}
 
-
-
 \subsection{Can you explain the MapReduce model, also in terms of the patterns depicted above (map, shuffle, reduce)?}
 \subsection{Can you describe the physical architecture of MapReduce (map tasks, reduce tasks as well as data flow)? Can you explain version 1 of the architecture (JobTracker, TaskTrackers) and its limits?}
 \subsection{Can you outline what a map function looks like, and what a reduce function looks like?}
@@ -1081,15 +1079,99 @@ MapReduce in hadoop-2.x maintains API compatibility with previous stable release
 \section{Document stores}
 \subsection{Do you understand how collections in documents store generalize the concept of a relational table?}
 
-
+Yes, essentially document stores generalize the idea of a relational table by encompassing trees. A document store is essentially a collection of trees, and a relational table is essentially a special case of document where the tree structure is flat.
 
 \subsection{Can you explain what documents store can do that relational databases cannot (e.g., heterogeneous collections, schema-less collections, data denormalized into trees...)?}
+
+It can:
+\begin{itemize}
+\item It can collect and store heteogeneous collections of unstructured or semi structured data.
+\item It also does not require normalized data
+\item It does not require a schema to collect the data.
+\end{itemize}
+
 \subsection{Do you know how to issue MongoDB queries on a low level? Do you know the parameters of the find() function? (query, then projection, then sorting)?}
+
+Couple of examples:
+\begin{itemize}
+\item The following example returns all fields from all documents in the inventory collection where the status equals "A": \verb|db.inventory.find( { status: "A" } )|
+\item Sorting: \verb|db.orders.find().sort( { amount: -1 } )|
+\end{itemize}
+
+Further examples shown in Figure~\ref{fig:queryresult}. Note subtleties in~\ref{fig:nestedness}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.5\textwidth]{img/read_statement_mongodb.png}
+  \caption{Find query result.}
+  \label{fig:queryresult}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.45\textwidth]{img/nestedness_1.png}
+  \hfill
+  \includegraphics[width=.45\textwidth]{img/nestedness_2.png}
+  \caption{Nestedness}
+  \label{fig:nestedness}
+\end{figure}
+\subsection{What is the one operations document stores cannot do that RDBMS can and vice versa? }
+
+Document stores cannot perform join operations, RDBMS don't validate the data once populated.
+
 \subsection{Can you explain how, in a document store, the documents can be sharded and replicated?}
+
+From MongoDB on sharding:
+Sharding is a method for distributing data across multiple machines. MongoDB uses sharding to support deployments with very large data sets and high throughput operations.
+
+Database systems with large data sets or high throughput applications can challenge the capacity of a single server. For example, high query rates can exhaust the CPU capacity of the server. Working set sizes larger than the system’s RAM stress the I/O capacity of disk drives.
+
+There are two methods for addressing system growth: vertical and horizontal scaling.
+
+Vertical Scaling involves increasing the capacity of a single server, such as using a more powerful CPU, adding more RAM, or increasing the amount of storage space. Limitations in available technology may restrict a single machine from being sufficiently powerful for a given workload. Additionally, Cloud-based providers have hard ceilings based on available hardware configurations. As a result, there is a practical maximum for vertical scaling.
+
+Horizontal Scaling involves dividing the system dataset and load over multiple servers, adding additional servers to increase capacity as required. While the overall speed or capacity of a single machine may not be high, each machine handles a subset of the overall workload, potentially providing better efficiency than a single high-speed high-capacity server. Expanding the capacity of the deployment only requires adding additional servers as needed, which can be a lower overall cost than high-end hardware for a single machine. The trade off is increased complexity in infrastructure and maintenance for the deployment.
+
+For replication: often a primary copy of the data is kept, and updated first. Then, secondary members of a replica sets are updated. Each shard contains a replica sets, composed of primary vs. secondary copies of the data.
+
+
 \subsection{Do you understand how indices can make queries faster, like in relational databases?}
+
+Hash indices are a fast way of performing selections of data in a document store. It's essentially a table containing the value and the row id of the document.
+
+\subsection{What are some of the limitations of hash indices?}
+
+\begin{itemize}
+\item No support for range queries
+\item Hash function not perfect in real life
+\item Space requirements for collision avoidance. (pigeonhole principle).
+\end{itemize}
+
 \subsection{Do you know what kinds of indices there are (hash, B-trees)?}
-\subsection{Are you capable of telling if an index is useful to a given query, for simple settings(for example, an index on a single field and a query that selects on that field)?}
-\subsection{Do you know that a compound index (e.g., on keys a and b) can also be used as anindex on any prefix of the compound key (e.g., on key a only) "for free"?}
+
+Hash tables are tables as described two questions earlier. B trees are trees are balanced trees which result in block access of the data. Some properties of these trees:
+\begin{itemize}
+\item All leaves are at the same depth.
+\item All non-leaf nodes have between 3 and 5 children.
+\item The values are only at the leaves.
+\end{itemize}
+
+Example shown in Figure
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.7\textwidth]{img/index_tree.png}
+  \caption{Tree as index.}
+  \label{fig:tree}
+\end{figure}
+
+\subsection{Are you capable of telling if an index is useful to a given query, for simple settings (for example, an index on a single field and a query that selects on that field)?}
+
+Yes, essentially if the created index is used to do the bulk of the primary filtering of a query it's useful. Some post filtering can be done once fetched data is in memory.
+
+\subsection{Do you know that a compound index (e.g., on keys a and b) can also be used as an index on any prefix of the compound key (e.g., on key a only) "for free"?}
+
+Yes, similar to pd.MultiIndex.
 
 \pagebreak
 
