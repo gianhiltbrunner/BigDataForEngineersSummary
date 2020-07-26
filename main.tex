@@ -759,6 +759,7 @@ validation comes after well-formedness, i.e. a well formed string is validated a
                   }
                 }
               }
+    }
    \end{json}
     \caption[Test]{Example of schema (done to be compatible for \url{https://python-jsonschema.readthedocs.io/en/stable/})}
  \label{lst:test3}
@@ -771,10 +772,48 @@ validation comes after well-formedness, i.e. a well formed string is validated a
 
 \section{Wide column stores}
 \subsection{Can you explain the limitations of the traditional relational model?}
+
+\begin{itemize}
+    \item Doesn't scale to big data: Operations such as JOIN are very expensive on large datasets
+    \item Limitation to a single machine: Performing classical RDBMS operations across a cluster infrastructure is very hard, as transactions need to be synchronized across nodes
+\end{itemize}
+
 \subsection{Can you explain the differences and similarities between a wide column store and the traditional relational model?}
+
+In wide column stores we store together what is accessed together. The traditional relational model (Boyce-Codd) features expensive koin operations when data is retrieved. In wide column stores we denormalize the data such that data is stored in one single table and access operations are cheaper. 
+
+
 \subsection{Can you explain why wide column stores are called wide column stores, in particular on the storage level?}
-\subsection{Do you know and can you contrast the two ways data can be distributed(partitioning, replicating)?}
+
+As the column name is not fixed wide column stores can have a very large number of columns. Groups of columns are called regions, a row-subset of these are stored together. 
+
+\subsection{Do you know and can you contrast the two ways data can be distributed (partitioning, replicating)?}
+
+\begin{itemize}
+    \item \textbf{Replication}: Same schema and data on multiple nodes of a cluster. 
+    \begin{itemize}
+        \item High data availability
+        \item High read and write speeds
+        \item Load-balancing for scalability and throughput
+    \end{itemize}
+    \item \textbf{Partitioning}: Limitation on how much data can be stored on one node. Multiple nodes only have part of the data. 
+    \begin{itemize}
+        \item Queries can be executed on parallel on the different partitions (shards) on different nodes. 
+    \end{itemize}
+\end{itemize}
+
+
 \subsection{Can you explain the data model behind wide column stores, in particular, rows,columns, column families and cells?}
+
+\begin{itemize}
+\item \textbf{Rows}: Have a "Row ID"; thus setup like key-value store 
+\item \textbf{Columns}: Columns are not fixed like in an RDBMS. They can be added on the fly if a new entry is added. 
+\item \textbf{Column families}: Groups of columns which are stored together; these can not be added on the fly and must be known in advance. 
+\item \textbf{Cells}: Format and name of a cell can vary from row to row
+\end{itemize}
+
+\textbf{A wide-column store can be interpreted as a two-dimensional key–value store.}
+
 \subsection{Can you explain the motivation behind data getting denormalized into more columnfamilies?}
 \subsection{Can you explain what aspects of an instance (table) in a column store must betypically known in advance, and which can be changed on the fly?}
 \subsection{Can you name a few big players, in particular the one behind the initial founding paper?}
