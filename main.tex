@@ -817,20 +817,127 @@ As the column name is not fixed wide column stores can have a very large number 
 \textbf{A wide-column store can be interpreted as a two-dimensional key–value store.}
 
 \subsection{Can you explain the motivation behind data getting denormalized into more columnfamilies?}
-\subsection{Can you explain what aspects of an instance (table) in a column store must betypically known in advance, and which can be changed on the fly?}
+
+A set of rows within a columnfamiliy is stored together physically. If we wanna split up the data then we can split up the column families. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[0.5\linewidth]{img/storetog.png}
+\end{figure}
+
+\subsection{Can you explain what aspects of an instance (table) in a column store must be typically known in advance, and which can be changed on the fly?}
+
+Column families must be known in advance but columns can be added on the fly.
+
 \subsection{Can you name a few big players, in particular the one behind the initial founding paper?}
+
+Google (BigTable), Apache (HBASE) and Cassandra
+
 \subsection{Can you explain why HBase is based on HDFS, yet low-latency?}
+
+A region (number of rows) and a column familiy of HBase are stored in a sorted key-value pair list on HDFS. These map back to the original HBase "table"
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[0.5\linewidth]{img/hfile_map.png}
+\end{figure}
+
+We have a speed increase due to in-memory storage in the MemStore. The MemStore is flushed to HDFS which is lexiographically sorted and thus allows fast access. 
+
 \subsection{Can you explain what regions are for wide column stores?}
+
+{Regions are groups of of rows including "Min-incl." and excluding "Max-excl."}
+
 \subsection{Do you know how to identify a region based on the content of the wide column store?}
+
+HBase Tables are divided horizontally by row key range into “Regions.” A region contains all rows in the table between the region’s start key and end key. Regions are assigned to the nodes in the cluster, called “Region Servers,” and these serve data for reads and writes. A region server can serve about 1,000 regions.
+
+
 \subsection{Do you know the four basic kinds of (low-level) queries in HBase?}
+
+\begin{itemize}
+    \item \textbf{GET}: Get a row
+    \item \textbf{PUT}: Add a row
+    \item \textbf{SCAN}: Return multiple rows given a start and end row
+    \item \textbf{DELETE}: Remove a row
+\end{itemize}
+
 \subsection{Can you describe the physical architecture of a wide column store like HBase, and compare it with that of a distributed file system like HDFS?}
+
+\begin{itemize}
+    \item \textbf{HDFS}
+    
+    \includegraphics[width=\linewidth]{img/hdfsov.png}
+    \item \textbf{HBase}
+    
+    \includegraphics[width=\linewidth]{img/hbaseov.png}
+\end{itemize}
+
+\begin{table}[H]
+\begin{tabular}{|l|l|}
+\hline
+\textbf{HDFS}                                                                                     & \textbf{HBase}                                                                    \\ \hline
+HDFS is a Java-based file system utilized for storing large data sets.                            & HBase is a Java based Not Only SQL database                                       \\ \hline
+HDFS has a rigid architecture that does not allow changes. It doesn’t facilitate dynamic storage. & HBase allows for dynamic changes and can be utilized for standalone applications. \\ \hline
+HDFS is ideally suited for write-once and read-many times use cases                               & HBase is ideally suited for random write and read of data that is stored in HDFS. \\ \hline
+\end{tabular}
+\end{table}
+
+
+\textbf{Components}
+
+\begin{itemize}
+    \item \textbf{HMaster}: Create and delete table operations; assigns regions to region servers and splits regions if necessary; handles fail overs
+    \item \textbf{Regionserver}: Handles the storage of the regions 
+\end{itemize}
+
 \subsection{Do you know the physical layers of HBase (table, region, Store, Memstore, HFile,HBase block, Key Value)?}
+
+\begin{figure}
+    \centering
+    \includegraphics{img/ondisk_hbase.png}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Table}: Consists of rows with a key and multiple column families
+    \item \textbf{Region}: {Regions are groups of of rows including "Min-incl." and excluding "Max-excl."}
+    \item \textbf{Store}: Column family and a set of rows that are stored together. 
+    \item \textbf{Memstore}: New data is first written to the MemStore; as soon as the MemStore is full it is flushed to a HFile
+    \item \textbf{HFile}: File containing multpile HBlocks which store the data in an sorted and immutable fashion. 
+    \item \textbf{HBlock}: Number of KeyValues that get read at a time. (64 kb) On data lookup the key is looked up in the index file which contains a number of keys and the correpoding location in the HFile.
+    \item \textbf{KeyValue}
+        \includegraphics[width=0.5\linewidth]{img/hfile_keyvalue.png}
+\end{itemize}
+
 \subsection{Do you know the difference between an HDFS block and an HBase block as well astheir typical sizes?}
+
+\begin{itemize}
+    \item HBase blocks are the unit of indexing (as well as caching and compression) in HBase and allow for fast random access
+    \item HDFS blocks are the unit of the file system distribution and data locality
+\end{itemize}
+
+Good StackOverflow thread on the topic https://stackoverflow.com/questions/12472655/random-access-performance-in-hbase-block-size-in-hdfs. 
+
 \subsection{Can you explain how new cells are written to HBase via the cell store?}
+
+A new cell of data is written to the MemStore (Per Region and Family), as soon as the MemStore is full it is flushed to the disk in form of a new HFile. Upon flush mergesort is performed. 
+
 \subsection{Can you explain how cells are read from HBase via both the stored HFiles and the Memstore?}
+
+If a cell is read the MemStore and the different HFiles are searched. In the HFiles only a subset of the file needs to be seqrched due to the sorting. 
+
 \subsection{Can you explain what compaction and flushing is?}
-\subsection{Can you sketch the contents of an HFile and know what it corresponds to in anHBase table?}
+
+Flusing is the process of creating a HFile from the MemStore. During compaction multiple HBlocks are merged and sorted. 
+
+\subsection{Can you sketch the contents of an HFile and know what it corresponds to in an HBase table?}
+
+See picture above. 
+
 \subsection{Can you explain why it is crucial not to have too long column family names?}
+
+Keep your column family names as short as possible. The column family names are stored for every value (ignoring prefix encoding). 
+
 \subsection{Can you populate data into, and execute queries on top of HBase?}
 
 \pagebreak
