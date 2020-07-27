@@ -765,7 +765,7 @@ validation comes after well-formedness, i.e. a well formed string is validated a
    \end{json}
     \caption[Test]{Example of schema (done to be compatible for \url{https://python-jsonschema.readthedocs.io/en/stable/})}
  \label{lst:test3}
-s \end{listing}
+ \end{listing}
 \end{center}
 
 
@@ -822,7 +822,7 @@ A set of rows within a columnfamiliy is stored together physically. If we wanna 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[0.5\linewidth]{img/storetog.png}
+    \includegraphics[width=0.5\linewidth]{img/storetog.png}
 \end{figure}
 
 \subsection{Can you explain what aspects of an instance (table) in a column store must be typically known in advance, and which can be changed on the fly?}
@@ -839,7 +839,7 @@ A region (number of rows) and a column familiy of HBase are stored in a sorted k
 
 \begin{figure}[H]
     \centering
-    \includegraphics[0.5\linewidth]{img/hfile_map.png}
+    \includegraphics[width=0.5\linewidth]{img/hfile_map.png}
 \end{figure}
 
 We have a speed increase due to in-memory storage in the MemStore. The MemStore is flushed to HDFS which is lexiographically sorted and thus allows fast access. 
@@ -876,10 +876,10 @@ HBase Tables are divided horizontally by row key range into “Regions.” A reg
 \begin{table}[H]
 \begin{tabular}{|l|l|}
 \hline
-\textbf{HDFS}                                                                                     & \textbf{HBase}                                                                    \\ \hline
-HDFS is a Java-based file system utilized for storing large data sets.                            & HBase is a Java based Not Only SQL database                                       \\ \hline
-HDFS has a rigid architecture that does not allow changes. It doesn’t facilitate dynamic storage. & HBase allows for dynamic changes and can be utilized for standalone applications. \\ \hline
-HDFS is ideally suited for write-once and read-many times use cases                               & HBase is ideally suited for random write and read of data that is stored in HDFS. \\ \hline
+\textbf{HDFS}                                                                                                                                   & \textbf{HBase}                                                                                                                  \\ \hline
+\begin{tabular}[c]{@{}l@{}}HDFS is a Java-based file system utilized \\ for storing large data sets.\end{tabular}                               & \begin{tabular}[c]{@{}l@{}}HBase is a Java based Not \\ Only SQL database\end{tabular}                                          \\ \hline
+\begin{tabular}[c]{@{}l@{}}HDFS has a rigid architecture that does not \\ allow changes. It doesn’t facilitate dynamic\\  storage.\end{tabular} & \begin{tabular}[c]{@{}l@{}}HBase allows for dynamic \\ changes and can be utilized for \\ standalone applications.\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}HDFS is ideally suited for write-once \\ and read-many times use cases\end{tabular}                                  & \begin{tabular}[c]{@{}l@{}}HBase is ideally suited for \\ random write and read of data \\ that is stored in HDFS.\end{tabular} \\ \hline
 \end{tabular}
 \end{table}
 
@@ -895,7 +895,7 @@ HDFS is ideally suited for write-once and read-many times use cases             
 
 \begin{figure}
     \centering
-    \includegraphics{img/ondisk_hbase.png}
+    \includegraphics[width=0.5\linewidth]{img/ondisk_hbase.png}
 \end{figure}
 
 \begin{itemize}
