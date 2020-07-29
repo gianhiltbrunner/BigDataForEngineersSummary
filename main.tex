@@ -35,6 +35,20 @@
     samepage
 }
 
+\newminted[java]{java}{
+    fontfamily = tt,
+    fontsize = \normalsize,
+    gobble = 1,
+    samepage
+}
+
+\newminted[python]{python}{
+    fontfamily = tt,
+    fontsize = \normalsize,
+    gobble = 1,
+    samepage
+}
+
 
 \begin{document}
 % \begin{multicols}{2}
@@ -162,7 +176,7 @@ One byte is a collection of 8 bits where a bit represents the most basic form of
 
 
 
-\pagebreak
+
 
 \section{Lessons learnt}
 \subsection{Can you explain why it is important to take into consideration whether a use case is read-intensive, or write-intensive, or in-between?}
@@ -275,7 +289,7 @@ primary key & primary key \\ \hline
 
 \href{https://www.codecademy.com/articles/sql-commands}{Codecademy - SQL Commands}
 
-\pagebreak
+
 
 \section{Object storage}
 \subsection{Can you describe the limitations of traditional (local) file systems?}
@@ -363,7 +377,7 @@ Throughput HDD<SDD<RAM
 
 Other instances: JSON, Azure cosmos DB key value paradigm, ...
 
-\pagebreak
+
 
 \subsection{Do you know the difference between data and metadata?}
 
@@ -456,7 +470,7 @@ You can address any combination of bucket and object name like so in S3:
 
 Yes. This is also what one does when hosting a static website.
 
-\pagebreak
+
 
 \section{Distributed file systems}
 \subsection{Can you explain the difference between block storage and object storage?}
@@ -558,7 +572,7 @@ We resolve this using:
 \subsection{Can you explain what a standby namenode is, what it is and what it is not?}
 \subsection{Are you able to use the HDFS shell commands (creating directories, reading, uploading and downloading files, etc.)?}
 
-\pagebreak
+
 
 \section{Syntax}
 \subsection{Can you describe why syntax is relevant to data management and to Big Data, for all data shapes?}
@@ -770,7 +784,7 @@ validation comes after well-formedness, i.e. a well formed string is validated a
 
 
 
-\pagebreak
+
 
 \section{Wide column stores}
 \subsection{Can you explain the limitations of the traditional relational model?}
@@ -940,7 +954,7 @@ Keep your column family names as short as possible. The column family names are 
 
 \subsection{Can you populate data into, and execute queries on top of HBase?}
 
-\pagebreak
+
 
 \section{Data models}
 \subsection{Can you explain the difference between syntax and a data model?}
@@ -1078,32 +1092,109 @@ Avro, protocol buffers, ...
 
 
 
-\pagebreak
+
 
 \section{Massive parallel processing (MapReduce)}
 \subsection{Can you explain the patterns that appear in large-scale data processing: map, shuffle?}
 
-Map: each worker node applies the map function to the local data, and writes the output to a temporary storage. A master node ensures that only one copy of the redundant input data is processed.
+\begin{itemize}
+    \item \textbf{Map}: each worker node applies the map function to the local data, and writes the output to a temporary storage. A master node ensures that only one copy of the redundant input data is processed.
 
-Shuffle: worker nodes redistribute data based on the output keys (produced by the map function), such that all data belonging to one key is located on the same worker node.
+\item \textbf{Shuffle}: worker nodes redistribute data based on the output keys (produced by the map function), such that all data belonging to one key is located on the same worker node.
 
-Reduce: worker nodes now process each group of output data, per key, in parallel.
+\item \textbf{Reduce}: worker nodes now process each group of output data, per key, in parallel.
 
-\subsection{Can you explain how the mastery of these patterns can bring signficant improvements in performance?}
+\end{itemize}
+
+\subsection{Can you explain how the mastery of these patterns can bring significant improvements in performance?}
+
+Many tasks can be performed in a distributed and parallel fashion such that the work is shared across workers. 
 
 \subsection{Can you explain the MapReduce model, also in terms of the patterns depicted above (map, shuffle, reduce)?}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/map_reduce_ex.png}
+\end{figure}
+
+
 \subsection{Can you describe the physical architecture of MapReduce (map tasks, reduce tasks as well as data flow)? Can you explain version 1 of the architecture (JobTracker, TaskTrackers) and its limits?}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/mapred_v1.png}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{JobTracker}: Runs centrally; recieves MapReduce request from the client and requests data locations from the Namenode. JobTracker finds the best TaskTracker nodes to execute tasks based on the data locality (proximity of the data) and the available slots to execute a task on a given node. JobTracker monitors the individual TaskTrackers and the submits back the overall status of the job back to the client.
+    \item \textbf{TaskTracker}: Runs on the datanodes and executes Mapper and Reducer tasks. In communication with the JobTracker, signalling the progress of the execution. 
+\end{itemize}
+
+
 \subsection{Can you outline what a map function looks like, and what a reduce function looks like?}
+
+\begin{itemize}
+    \item \textbf{MAP} The Map function takes a series of key/value pairs, processes each, and generates zero or more output key/value pairs. The input and output types of the map can be (and often are) different from each other. If the application is doing a word count, the map function would break the line into words and output a key/value pair for each word. Each output pair would contain the word as the key and the number of instances of that word in the line as the value.
+    \item \textbf{REDUCE} The framework calls the application's Reduce function once for each unique key in the sorted order. The Reduce can iterate through the values that are associated with that key and produce zero or more outputs. In the word count example, the Reduce function takes the input values, sums them and generates a single output of the word and the final sum.
+\end{itemize}
+
 \subsection{Do you know the main input and output types of MapReduce?}
+
+The input and output to each phase are key-value pairs.
+
 \subsection{Can you explain how combining improve MapReduce's performance?}
-\subsection{Can you state the assumptions behind reusing the reduce function as a combinefunction?}
-\subsection{Do you understand, in some simple cases, how to design a combine function thatwould make a MapReduce job faster, even if the combine function is not the exact same as the reduce function? (Example: computing an average, which requires keeping track of the weights in the output of the combine function).}
+
+Modules such as the Combiner function can help to reduce the amount of data written to disk, and transmitted over the network when data is shuffled or otherwise copied. 
+
+\subsection{Can you state the assumptions behind reusing the reduce function as a combine function?}
+
+Often the combine and reduce functions are identical. But there are assumptions that must hold. 
+
+\begin{itemize}
+    \item Key-value types must be identical for input and output. 
+    \item Reduce function must be commutative (items can be exchanged without changing the result) and associative (Order of operations does not matter. If key-value pair 1 and 2 or 2 and 3 are first combined doesn't matter.). 
+\end{itemize}
+
+\subsection{Do you understand, in some simple cases, how to design a combine function that would make a MapReduce job faster, even if the combine function is not the exact same as the reduce function? (Example: computing an average, which requires keeping track of the weights in the output of the combine function).}
+
+
+
 \subsection{Can you explain why MapReduce shines on top of a distributed file system: "Bring the query to the data"?}
+
+The TaskTracker runs directly on the DataNode thus the query can be executed locally where the data is actually stored. It is cheaper to run the query locally than to bring the copy the data to a central node. After reduction the data can be copied more efficiently. 
+
 \subsection{Can you explain why MapReduce especially makes sense when the bottleneck is the speed of reading and writing data from the disk (as opposed to other bottlenecks such as storage capacity or CPU usage)?}
+
+Reading and writing happens largely locally in a distributed fashion where the data is actually processed. 
+
 \subsection{Can you explain how MapReduce splits differ from HDFS blocks, what impedance mismatches arise and how they are addressed?}
+
+MapReduce data splits largely correspond to the physical level HDFS blocks. But as HDFS blocks are just bits of a defined size some data (e.g. key-value pair) may overlap two blocks. When this happens the overlapping data needs to be copied by remote read. 
+
 \subsection{Do you know what the Java API of MapReduce looks like on a high level (Version 2 of the API that we covered, not to be confused with Version 2 of MapReduce running on YARN)?}
 
-\pagebreak
+
+\begin{center}
+\begin{listing}[H]
+  \begin{java}
+    // Create a new Job
+    Job job = new Job(new Configuration());
+    job.setJarByClass(MyJob.class);
+    
+    // Specify various job-specific parameters
+    job.setJobName("myjob");
+    job.setInputPath(new Path("in"));
+    job.setOutputPath(new Path("out"));
+    
+    job.setMapperClass(MyJob.MyMapper.class);
+    job.setReducerClass(MyJob.MyReducer.class);
+    
+    // Submit the job, then poll for progress until the job is complete
+    job.waitForCompletion(true);
+  \end{java}
+\end{listing}
+\end{center}
+
 
 \section{Resource Management}
 
@@ -1111,7 +1202,7 @@ Reduce: worker nodes now process each group of output data, per key, in parallel
 
 \subsection{Can you explain how YARN works, and how it can be used to improve MapReduce, and to support other technologies like Spark?}
 
-The responsibilities of the jobtracker in mapreduce are manifold:
+The responsibilities of the job tracker in mapreduce are manifold:
 
 \begin{enumerate}
 \item Resource management
@@ -1157,9 +1248,9 @@ Disk storage,memory, CPU, network I/O: all are dynamically allocated for each ap
 
 \subsection{Can you explain, in simpler words, what the added value of YARN is? Can you explainwhat it is an improvement over the first version of MapReduce, which was taking care of resource management on its own, and had issues with this?}
 
-Essentially, YARN allows for a more flexible and dynamic allocation of tasks on a cluster, which also allows to prioritize certain tasks and users while wasting a minimum of space.
+Essentially, YARN allows for a more flexible and dynamic allocation of tasks on a cluster, which also allows to prioritize certain tasks and users while wasting a minimum of space.\\
 
-\subsection{From HADOOP website}
+\textbf{From HADOOP website}\\
 
 The fundamental idea of YARN is to split up the functionalities of resource management and job scheduling/monitoring into separate daemons. The idea is to have a global ResourceManager (RM) and per-application ApplicationMaster (AM). An application is either a single job or a DAG of jobs.
 
@@ -1190,37 +1281,189 @@ MapReduce in hadoop-2.x maintains API compatibility with previous stable release
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{img/capacity_scheduling.png}
-  \caption{Capacity scheduling increases the amount of queues but does not allow optimal ressource allocation.}
+  \caption{Capacity scheduling increases the amount of queues but does not allow optimal resource allocation.}
   \label{fig:capsched}
 \end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{img/fair.png}
-  \caption{FAIR scheduling, most optimal scheduling of ressources.}
+  \caption{FAIR scheduling, most optimal scheduling of resources.}
   \label{fig:fairsched}
 \end{figure}
 
-\pagebreak
+
 
 \section{Massive parallel processing (Spark)}
 \subsection{Can you explain how Spark is more powerful than MapReduce on a data model level?}
+
+The MapReduce network has a very specific structure but YARN supports more general graph topologies; Spark uses the full potential of such more complex graphs. 
+
 \subsection{Can you explain what a Resilient Distributed Dataset (RDD) is?}
+
+Resilient Distributed Dataset (RDD) is a read-only multiset of data items distributed over a cluster of machines, that is maintained in a fault-tolerant way.
+
+In MapReduce there is substantial I/O between intermediate operations. In Spark intermediate results can be stored in distributed memory insted of stable storage thereby increasing speed. (Spillout to disk if necessary)
+
 \subsection{Do you know the difference between an action and a transformation?}
+
+\begin{itemize}
+    \item \textbf{Transformation}: Operations that transform the RDD from one form into another. Such operations include \texttt{map}, \texttt{filter} and many more. When transformations are applied on any RDD it will not perform the operation immediately. It will create a DAG (Directed Acyclic Graph) using the applied operation, source RDD and function used for transformation. And it will keep on building this graph using the references until an action is performed. 
+    \item \textbf{Action}: As soon as an Action is performed the the transformations are executed and a non-RDD result is returned. These include \texttt{reduce}, \texttt{collect}, \texttt{first} and many others. 
+\end{itemize}
+
+
 \subsection{Do you know the main actions and transformations available in Spark?}
-\subsection{Are you able to classify transformations and actions in various buckets (those thatwork on any value, those that work on key-value pairs, unary binary transformations, ...)?}
+
+\textbf{Transformations}
+
+\begin{itemize}
+    \item \textbf{filter}: Returns a subset of the data based on some condition.
+    \item \textbf{map}: Apply a function to each element,
+    \item \textbf{flatMap}: Similar to map but returns multiple elements. 
+    \item \textbf{distinct}: Removes duplicate elements. 
+    \item \textbf{sample}: Return a random subset of elements. 
+    \item \textbf{union}: Combine elements of two datasets.
+    \item \textbf{intersection}: Return elements found in both datasets. 
+    \item \textbf{subtract}: Return elements found in one but not the other datset. 
+    \item \textbf{cartesion}: Return a tuple of all pairs. 
+\end{itemize}
+
+\textbf{Transformations}
+
+\begin{itemize}
+    \item \textbf{collect}: Return all the elements of the dataset as an array at the driver program.
+    \item \textbf{count}: Return the number of elements. 
+    \item \textbf{countByKey}: Returns counts by keys. 
+    \item \textbf{take}: Return first n elements from the dataset. 
+    \item \textbf{top}: Return the top n elements from the dataset.
+    \item \textbf{takeSample}: Return sample of n elements. 
+    \item \textbf{reduce}: e.g. Sum up all the elements and return the sum. 
+\end{itemize}
+
+\subsection{Are you able to classify transformations and actions in various buckets (those that work on any value, those that work on key-value pairs, unary binary transformations, ...)?}
+
+\subsubsection{Pair RDDs}
+
+\textbf{Transformations}
+
+\begin{itemize}
+    \item \textbf{keys}: Return all keys. 
+    \item \textbf{values}: Return all values. 
+    \item \textbf{reduceByKey}: Reduce elements by common keys. 
+    \item \textbf{groupByKey}: Group elements with common key. 
+    \item \textbf{sortByKey}: Sort elements by key. 
+    \item \textbf{mapValues}: Apply function to values. 
+    \item \textbf{join}: Join by common key. 
+    \item \textbf{subtractByKey}: Subtract elements from each other by keys. 
+\end{itemize}
+
+\textbf{Actions}
+
+\begin{itemize}
+    \item \textbf{countByKey}: Count elements by key. 
+    \item \textbf{lookup}: Find element with specific key. 
+\end{itemize}
+
 \subsection{Can you describe how transformations run physically (tasks, stages...)?}
+
+Per default there is one task per HDFS block. Tasks are distibuted over the cores of the executors. A stage is a sequence of parallelizable transformations. 
+
 \subsection{Can you explain when and how a series of transformations can be optimized by keeping the same set of machines with no network communication between the transformations?}
+
+When each partition at the parent RDD is used by at most one partition of the child RDD, then we have a narrow dependency. Computations of transformations with this kind of dependency are rather fast as they do not require any data shuffling over the cluster network. In addition, optimizations such as pipelining are also possible.
+
 \subsection{Can you explain what a stage is? Can you relate it to transformations? To tasks? To Jobs?}
-\subsection{Can you tell why and when shuffling is needed? In other words, can say whether atransformation has a narrow dependency or a wide dependency?}
+
+Spark stages are the physical unit of execution for the computation of multiple \textbf{tasks}. The Spark stages are controlled by the Directed Acyclic Graph (DAG). There are mainly two stages associated with the Spark frameworks such as, ShuffleMapStage and ResultStage. The ShuffleMapStage is the intermediate phase for the tasks which prepares data for subsequent stages, whereas ResultStage is a final step to the spark function for the particular set of tasks in the spark job.
+
+\textbf{Transformations}\\
+
+\begin{itemize}
+    \item \textbf{Narrow Transformations}: These are transformations that do not require the process of shuffling. These actions can be executed in a single stage. Example: map() and filter()
+    \item \textbf{Wide Transformations}: These are transformations that require shuffling across various partitions. Hence it requires different stages to be created for communication across different partitions. Example: ReduceByKey
+\end{itemize}
+
+\textbf{Jobs} are divided into "stages" based on the shuffle boundary.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/spark_terminology.png}
+\end{figure}
+
+\subsection{Can you tell why and when shuffling is needed? In other words, can say whether a transformation has a narrow dependency or a wide dependency?}
+
+\begin{itemize}
+    \item \textbf{Narrow Transformations}: These are transformations that do not require the process of shuffling. These actions can be executed in a single stage. Example: map() and filter()
+    \item \textbf{Wide Transformations}: These are transformations that require shuffling across various partitions. Hence it requires different stages to be created for communication across different partitions. Example: ReduceByKey
+\end{itemize}
+
 \subsection{Can you easily draw a directly acyclic graph for a Spark job, and mark the stages?}
+
+\includegraphics[width=\linewidth]{img/stages.png}
+
 \subsection{Do you understand why keeping an RDD persisted can be useful and improve performance?}
-\subsection{Can you explain how controlling the way data is partitioned can make executionfaster because we can influence stages?}
+
+One of the most important capabilities in Spark is persisting (or caching) a dataset in memory across operations. When you persist an RDD, each node stores any partitions of it that it computes in memory and reuses them in other actions on that dataset (or datasets derived from it). This allows future actions to be much faster (often by more than 10x). Caching is a key tool for iterative algorithms and fast interactive use.
+
+\subsection{Can you explain how controlling the way data is partitioned can make execution faster because we can influence stages?}
+
+We try to avoid wide dependencies by making sure that key-values with the same keys are already on the same machine thus reducing shuffling operations. 
+
 \subsection{Can you explain what a DataFrame is and what its benefits are?}
+
+A DataFrame is a distributed collection of data, which is organized into named columns. Conceptually, it is equivalent to relational tables with good optimization techniques.
+
+\begin{itemize}
+    \item DataFrames have a smaller memory footprint than "raw" Spark. 
+    \item Spark can perform schema inference on various input datasforms, providing a DataFrame with appropriate types
+    \item Conceptually similar to a relational database; allow SQL queries. 
+    \item Scales from kilobytes to petabytes. 
+    \item APIs are available in various programming languages. 
+\end{itemize}
+
+
 \subsection{Can you describe the limitations of DataFrames?}
+
+\begin{itemize}
+    \item The compiler is not able to catch errors as the code refers to data attribute names. Errors are detected during the run time after the creation of query plans.
+    \item It works better with Scala and very limited with Java.
+    \item Domain objects cannot be regenerated from it.
+\end{itemize}
+
 \subsection{Can you write queries on DataFrames, both in Spark SQL or using DataFrames transformations?}
 
-\pagebreak
+\textbf{Spark SQL}
+
+\begin{center}
+\begin{listing}[H]
+  \begin{python}
+    df = spark.read.json('hdfs:///dataset.json')
+    df.createOrReplaceTempView("dataset")
+    df2 = df.sql("SELECT * FROM dataset " 
+                 "WHERE guess = target "
+                 "ORDER BY target ASC, country DESC, date DESC") 
+    result = df2.take(10)
+  \end{python}
+\end{listing}
+\end{center}
+
+\textbf{Logical Transformations}
+
+\begin{center}
+\begin{listing}[H]
+  \begin{python}
+    df = spark.read.json('hdfs:///dataset.json') 
+    df2 = df.filter(df['name'] = 'Einstein') 
+    df3 = df.sortBy(asc("theory"), desc("date")) 
+    df4 = df.select('year')
+    result = df4.take(10)
+  \end{python}
+\end{listing}
+\end{center}
+
+
+
 
 \section{Document stores}
 \subsection{Do you understand how collections in documents store generalize the concept of a relational table?}
@@ -1231,7 +1474,7 @@ Yes, essentially document stores generalize the idea of a relational table by en
 
 It can:
 \begin{itemize}
-\item It can collect and store heteogeneous collections of unstructured or semi structured data.
+\item It can collect and store heterogeneous collections of unstructured or semi structured data.
 \item It also does not require normalized data
 \item It does not require a schema to collect the data.
 \end{itemize}
@@ -1319,24 +1562,175 @@ Yes, essentially if the created index is used to do the bulk of the primary filt
 
 Yes, similar to pd.MultiIndex.
 
-\pagebreak
+
 
 \section{Querying trees}
 \subsection{Can you explain why a language such as JSONiq provides, in the context of document stores, exactly the same functionality as SQL in a relational database?}
+
+Every language construct in JSONiq is an expression; they are fully composable and the result of a query is the result of the evaluation of its main expression. Project, Select, Filter, Join, Group, Order... Like SQL, JSONiq can do all that.
+
 \subsection{Can you name the first-class citizen of the JDM (sequence of items)?}
+
+The sequence of items is the first-class citizen and has the following properties. 
+ 
+\textbf{Properties} 
+\begin{itemize}
+    \item Heterogeneous
+    \item Denormalized
+\end{itemize}
+
 \subsection{Can you name various kinds of items in the JDM?}
+
+\textbf{JSONiq Data Model (JDM): Items}
+
+\begin{itemize}
+    \item Atomic
+    \item Object 
+    \item Array 
+    \item Function 
+\end{itemize}
+
 \subsection{Can you name a few query languages in the XML/JSON ecosystem?}
+
+XQuery (XML/JSON), JSON QUery, JSONIq
+
 \subsection{Are you able, in JSONiq, to construct items (atomic items, elements, etc.)?}
-\subsection{Are you able, in JSONiq, to perform logical operations? Do you understand what theEffective Boolean Value of a sequence and how it relates to logical operations?}
-\subsection{Are you able, in JSONiq, to perform arithmetic operations (addition, etc.)? Do youunderstand the constraints on the input sequences of such operations? Can you explain the behavior of these operations on empty sequences? Can you explain what happens if one of the two operands is a node and not an atomic item?}
+
+\begin{itemize}
+    \item \textbf{Strings}: "foo"; Escaping \\" or \\u0022
+    \item \textbf{Numbers}: 42 (int), 3.14 (decimal), -6.022E23 (double); Casting: int("123")
+    \item \textbf{Booleans}: true
+    \item \textbf{Dates and Time}: date("2013-05-01Z"), dateTime("2013-06-21T05:00:00"), time("05:00:00-08:00"), etc.
+    \item \textbf{Binaries}: hexBinary("0CD7"), base64Binary("RGFzc2Vs")
+    \item \textbf{JSON Objects}: JSON-notation
+    \item \textbf{Sequences}: Comma-separated
+    \item \textbf{Ranges}: 1 to 100
+\end{itemize}
+
+\subsection{Are you able, in JSONiq, to perform logical operations? Do you understand what the Effective Boolean Value of a sequence and how it relates to logical operations?}
+
+eg. \texttt{and}, \texttt{or} and \texttt{not}
+
+These are the effective Boolean values:
+
+\begin{itemize}
+    \item False if the operand is an empty sequence or a Boolean false.
+    \item Otherwise, the value is true.
+\end{itemize}
+
+
+\subsection{Are you able, in JSONiq, to perform arithmetic operations (addition, etc.)? Do you understand the constraints on the input sequences of such operations? Can you explain the behavior of these operations on empty sequences? Can you explain what happens if one of the two operands is a node and not an atomic item?}
+
+\begin{itemize}
+    \item \textbf{+}: Addition
+    \item \textbf{-}: Subtraction
+    \item \textbf{*}: Multiplication
+    \item \textbf{div}: Division
+    \item \textbf{idiv}: Integer division
+    \item \textbf{mod}: modulo
+\end{itemize}
+
 \subsection{Are you able, in JSONiq, to perform comparisons (lt, ge, etc.)? Do you understand the constraints on the input sequences of such operations? Can you explain the behavior of these operations on empty sequences? Can you explain what happens if one of the two operands is a node and not an atomic item?}
+
+The types have to match for such an operation to work. The comparison operator between an empty sequence and any other value will return an empty sequence. 
+
+\begin{table}[H]
+\begin{tabular}{|l|l|}
+\hline
+equality     & 1 + 1 eq 2                                                         \\ \hline
+inequality   & 6 * 7 ne 21 * 2                                                    \\ \hline
+greater than & \begin{tabular}[c]{@{}l@{}}234 gt 123\\ 234 ge 123\end{tabular}    \\ \hline
+less than    & \begin{tabular}[c]{@{}l@{}}42.3 lt 7.2 \\ 42.3 le 7.2\end{tabular} \\ \hline
+\end{tabular}
+\end{table}
+
+
 \subsection{Do you understand how general comparisons (<, >=, etc.) work on sequences with more than one item, and implicitly use an existential quantifier)?}
+
+Sequence operations work will yield true if one of the comparisons returns true.\\
+
+\textbf{Universal Quantifier}\\
+\texttt{every $i in 1 to 10 satisfies $i gt 0}
+
+\textbf{Existential Quantifier}\\
+\texttt{some $i in -5 to 5, $j in 1 to 10 satisfies $i eq $j}
+
 \subsection{Do you understand how FLWOR expressions work and describe what they return? (for clause, let clause, where clause, order by clause, etc.)}
+
+FLWOR expressions correspond to SQL's SELECT-FROM-WHERE statements, but they are more general and more flexible. In particular, clauses can almost appear in any order (apart that it must begin with a for or let clause, and end with a return clause).
+
+\begin{verbatim}
+    for $x in collection("captains")
+    return $x.name
+\end{verbatim}
+
+\textbf{Join}
+
+\begin{verbatim}
+    for $captain in collection("captains"), $movie in collection("movies")[ try { $$.captain eq $captain.name } catch * { false } ]
+    return { "captain" : $captain.name, "movie" : $movie.name }
+\end{verbatim}
+
 \subsection{Are you able to use further expressions (if-then-else, switch, ...)?}
+
+\begin{verbatim}
+    if(count(doc("file.xml")//country) gt 1000) then "Large file!"
+    else "Small file."
+\end{verbatim}
+
+\begin{verbatim}
+    switch($country.code) case "CH" return
+        ("gsw", "de", "fr", "it", "rm") case "F" return "fr"
+    case "D" return "de"
+    case "I" return "it"
+    default return "en"
+\end{verbatim}
+
 \subsection{Do you understand how to dynamically build JSON content with object and array constructors?}
-\subsection{Do you understand that expressions can be combined at will, as any expression takesand returns sequences of items? Do you know how to use parentheses to make precedence clear, like you did in primary school with + and *?}
-\subsection{Do you know the JSONiq type syntax (atomic types taken from XML Schema, syntaxfor object and array types, as well as cardinality symbols), and how to use typechecking (instance of, cast as, etc.)?}
-\subsection{Given a collection of JSON objects (for example JSON Lines on HDFS), are you able touse Rumble to write JSONiq queries (FLWOR) that do projection? selection? (weleave grouping, join, ... aside in the context of this lecture, however you need to know that this can be done with JSONiq as well).}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/json_construct.png}
+\end{figure}
+
+\subsection{Do you understand that expressions can be combined at will, as any expression takes and returns sequences of items? Do you know how to use parentheses to make precedence clear, like you did in primary school with + and *?}
+
+Use parentheses to override or when in doubt!
+
+\begin{table}[H]
+\begin{tabular}{|l|}
+\hline
+Precedence (low first)                                                                                                                     \\ \hline
+Comma                                                                                                                                      \\ \hline
+Data Flow (FLWOR, if-then-else, switch...)                                                                                                 \\ \hline
+Logic                                                                                                                                      \\ \hline
+Comparison                                                                                                                                 \\ \hline
+String concatenation                                                                                                                       \\ \hline
+Range                                                                                                                                      \\ \hline
+Arithmetic                                                                                                                                 \\ \hline
+Path expressions                                                                                                                           \\ \hline
+Filter predicates, dynamic function calls                                                                                                  \\ \hline
+\begin{tabular}[c]{@{}l@{}}Literals, constructors and variables\\ Function calls, named function references, inline functions\end{tabular} \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Do you know the JSONiq type syntax (atomic types taken from XML Schema, syntax for object and array types, as well as cardinality symbols), and how to use typechecking (instance of, cast as, etc.)?}
+
+\begin{verbatim}
+    for $x as array in ( 
+        [1],
+        [2]
+        )
+    return $x + $x cast as double
+\end{verbatim}
+
+\begin{verbatim}
+    (3.14,"foo") instance of integer*
+\end{verbatim}
+
+\subsection{Given a collection of JSON objects (for example JSON Lines on HDFS), are you able to use Rumble to write JSONiq queries (FLWOR) that do projection? selection? (we leave grouping, join, ... aside in the context of this lecture, however you need to know that this can be done with JSONiq as well).}
+
+
 
 %\end{multicols}
 \end{document}
